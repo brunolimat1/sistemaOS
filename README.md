@@ -1,4 +1,4 @@
-![GitHub](https://img.shields.io/github/license/brunolimat1/sistemaOS?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/brunolimat1/sistemaOS?style=plastic)
 # sistemaOS
 3DPrintTechGenius - Assistência técnica de Impressoras 3D
 ## Autor
