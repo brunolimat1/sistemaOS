@@ -239,6 +239,7 @@ public class Usuarios extends JDialog {
 		getContentPane().add(lblPerfil);
 
 		cboPerfil = new JComboBox();
+		cboPerfil.setEnabled(false);
 		cboPerfil.setModel(new DefaultComboBoxModel(new String[] { "", "admin", "user" }));
 		cboPerfil.setBounds(206, 35, 95, 20);
 		getContentPane().add(cboPerfil);
@@ -332,6 +333,7 @@ public class Usuarios extends JDialog {
 					btnEditar.setEnabled(true);
 					btnExcluir.setEnabled(true);
 					btnLimpar.setEnabled(true);
+					cboPerfil.setEnabled(true);
 					chckSenha.setEnabled(true);
 				} else {
 					JOptionPane.showMessageDialog(null, "Usuário inexistente");
@@ -369,9 +371,13 @@ public class Usuarios extends JDialog {
 				btnExcluir.setEnabled(true);
 				btnLimpar.setEnabled(true);
 				chckSenha.setEnabled(true);
+				cboPerfil.setEnabled(true);
 			} else {
 				JOptionPane.showMessageDialog(null, "Usuário inexistente");
 				btnAdicionar.setEnabled(true);
+				cboPerfil.setEnabled(true);
+				txtSenha.setEditable(true);
+				chckSenha.setSelected(true);
 				btnLimpar.setEnabled(true);
 			}
 			con.close();
@@ -441,6 +447,8 @@ public class Usuarios extends JDialog {
 		btnLimpar.setEnabled(false);
 		btnBuscar.setEnabled(true);
 		scrollPane.setVisible(false);
+		chckSenha.setEnabled(false);
+		cboPerfil.setEnabled(false);
 	}
 
 	/**
