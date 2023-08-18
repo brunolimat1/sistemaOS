@@ -36,6 +36,7 @@ import org.dom4j.io.SAXReader;
 
 import model.DAO;
 import utils.Validador;
+import java.awt.Cursor;
 
 public class Clientes extends JDialog {
 
@@ -170,6 +171,7 @@ public class Clientes extends JDialog {
 		txtEndereco.setDocument(new Validador(50));
 
 		btnCadastrar = new JButton("");
+		btnCadastrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnCadastrar.setFocusPainted(false);
 		btnCadastrar.setIcon(new ImageIcon(Clientes.class.getResource("/img/add.png")));
 		btnCadastrar.addActionListener(new ActionListener() {
@@ -179,6 +181,7 @@ public class Clientes extends JDialog {
 		});
 
 		btnLimpar = new JButton("");
+		btnLimpar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnLimpar.setFocusPainted(false);
 		btnLimpar.setEnabled(false);
 		btnLimpar.setIcon(new ImageIcon(Clientes.class.getResource("/img/eraser.png")));
@@ -194,16 +197,29 @@ public class Clientes extends JDialog {
 		getRootPane().setDefaultButton(btnCadastrar);
 
 		txtTelefone = new JFormattedTextField();
+		txtTelefone.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				OnlyNumber(e);
+			}
+		});
 		txtTelefone.setBounds(530, 105, 204, 19);
 		contentPanel.add(txtTelefone);
 		txtTelefone.setDocument(new Validador(15));
 
 		txtCep = new JFormattedTextField();
+		txtCep.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				OnlyNumber(e);
+			}
+		});
 		txtCep.setBounds(418, 142, 204, 19);
 		contentPanel.add(txtCep);
 		txtCep.setDocument(new Validador(10));
 
 		btnEditar = new JButton("");
+		btnEditar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnEditar.setFocusPainted(false);
 		btnEditar.setIcon(new ImageIcon(Clientes.class.getResource("/img/edit.png")));
 		btnEditar.setEnabled(false);
@@ -216,6 +232,7 @@ public class Clientes extends JDialog {
 		contentPanel.add(btnEditar);
 
 		btnExcluir = new JButton("");
+		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnExcluir.setFocusPainted(false);
 		btnExcluir.setIcon(new ImageIcon(Clientes.class.getResource("/img/trash.png")));
 		btnExcluir.addActionListener(new ActionListener() {
@@ -283,6 +300,7 @@ public class Clientes extends JDialog {
 		contentPanel.add(lblUF);
 
 		cboUf = new JComboBox();
+		cboUf.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		cboUf.setModel(new DefaultComboBoxModel(
 				new String[] { "", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA",
 						"PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
@@ -291,6 +309,7 @@ public class Clientes extends JDialog {
 		contentPanel.add(cboUf);
 
 		JButton btnBuscarCep = new JButton("Buscar CEP");
+		btnBuscarCep.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnBuscarCep.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buscarCep();
@@ -300,6 +319,12 @@ public class Clientes extends JDialog {
 		contentPanel.add(btnBuscarCep);
 
 		txtNumero = new JTextField();
+		txtNumero.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				OnlyNumber(e);
+			}
+		});
 		txtNumero.setColumns(10);
 		txtNumero.setBounds(599, 181, 135, 20);
 		contentPanel.add(txtNumero);
@@ -317,6 +342,12 @@ public class Clientes extends JDialog {
 				contentPanel.add(lblCpf);
 				
 				txtCpf = new JFormattedTextField();
+				txtCpf.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyTyped(KeyEvent e) {
+						OnlyNumber(e);
+					}
+				});
 				txtCpf.setBounds(53, 143, 204, 19);
 				contentPanel.add(txtCpf);
 				setLocationRelativeTo(null);
@@ -647,5 +678,14 @@ public class Clientes extends JDialog {
 
 		}
 	}
+	
+	public void OnlyNumber(KeyEvent e) {
+		char c = e.getKeyChar();
+		if (Character.isLetter(c)) {
+			e.consume();
+		}
+	}
+
 }
+
 // FIM DO CÓDIGO

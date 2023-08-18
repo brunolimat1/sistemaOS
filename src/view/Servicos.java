@@ -37,6 +37,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import model.DAO;
 import utils.Validador;
+import java.awt.Cursor;
 
 public class Servicos extends JDialog {
 	DAO dao = new DAO();
@@ -176,6 +177,7 @@ public class Servicos extends JDialog {
 		txtValor.setDocument(new Validador(10));
 
 		btnBuscar = new JButton("");
+		btnBuscar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnBuscar.setIcon(new ImageIcon(Servicos.class.getResource("/img/search.png")));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -186,6 +188,7 @@ public class Servicos extends JDialog {
 		contentPanel.add(btnBuscar);
 
 		btnAdicionar = new JButton("");
+		btnAdicionar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAdicionar.setIcon(new ImageIcon(Servicos.class.getResource("/img/add.png")));
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -196,6 +199,7 @@ public class Servicos extends JDialog {
 		contentPanel.add(btnAdicionar);
 
 		btnEditar = new JButton("");
+		btnEditar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnEditar.setIcon(new ImageIcon(Servicos.class.getResource("/img/edit.png")));
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -206,6 +210,7 @@ public class Servicos extends JDialog {
 		contentPanel.add(btnEditar);
 
 		btnExcluir = new JButton("");
+		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnExcluir.setIcon(new ImageIcon(Servicos.class.getResource("/img/trash.png")));
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -233,6 +238,7 @@ public class Servicos extends JDialog {
 		txtNome.setDocument(new Validador(30));
 
 		btnLimpar = new JButton("");
+		btnLimpar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnLimpar.setIcon(new ImageIcon(Servicos.class.getResource("/img/eraser.png")));
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -267,6 +273,7 @@ public class Servicos extends JDialog {
 		txtID.setDocument(new Validador(10));
 
 		btnPrint = new JButton("");
+		btnPrint.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnPrint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				imprimirOS();

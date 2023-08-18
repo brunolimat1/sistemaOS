@@ -202,11 +202,23 @@ public class Fornecedores extends JDialog {
 		getRootPane().setDefaultButton(btnCadastrar);
 
 		txtTelefone = new JFormattedTextField();
+		txtTelefone.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				OnlyNumber(e);
+			}
+		});
 		txtTelefone.setBounds(530, 105, 204, 19);
 		contentPanel.add(txtTelefone);
 		txtTelefone.setDocument(new Validador(15));
 
 		txtCep = new JFormattedTextField();
+		txtCep.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				OnlyNumber(e);
+			}
+		});
 		txtCep.setBounds(418, 276, 204, 19);
 		contentPanel.add(txtCep);
 		txtCep.setDocument(new Validador(10));
@@ -312,6 +324,12 @@ public class Fornecedores extends JDialog {
 		contentPanel.add(btnBuscarCep);
 
 		txtNumero = new JTextField();
+		txtNumero.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				OnlyNumber(e);
+			}
+		});
 		txtNumero.setBounds(670, 228, 64, 20);
 		txtNumero.setColumns(10);
 		contentPanel.add(txtNumero);
@@ -329,6 +347,12 @@ public class Fornecedores extends JDialog {
 		contentPanel.add(lblCnpj);
 
 		txtCnpj = new JFormattedTextField();
+		txtCnpj.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				OnlyNumber(e);
+			}
+		});
 		txtCnpj.setText("");
 		txtCnpj.setBounds(530, 189, 204, 19);
 		contentPanel.add(txtCnpj);
@@ -785,5 +809,14 @@ public class Fornecedores extends JDialog {
 
 		}
 	}
+	
+	public void OnlyNumber(KeyEvent e) {
+		char c = e.getKeyChar();
+		if (Character.isLetter(c)) {
+			e.consume();
+		}
+	}
+
 }
+
 // FIM DO CÓDIGO

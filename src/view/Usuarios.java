@@ -100,16 +100,16 @@ public class Usuarios extends JDialog {
 		scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		scrollPane.setBounds(64, 136, 281, 40);
 		getContentPane().add(scrollPane);
-		
-				listUsers = new JList();
-				scrollPane.setViewportView(listUsers);
-				listUsers.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						buscarUsuarioLista();
-					}
-				});
-				listUsers.setBorder(null);
+
+		listUsers = new JList();
+		scrollPane.setViewportView(listUsers);
+		listUsers.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				buscarUsuarioLista();
+			}
+		});
+		listUsers.setBorder(null);
 
 		JLabel lblNewLabel = new JLabel("ID");
 		lblNewLabel.setBounds(26, 38, 46, 14);
@@ -403,6 +403,9 @@ public class Usuarios extends JDialog {
 		} else if (capturaSenha.length() == 0) {
 			JOptionPane.showMessageDialog(null, "Preencha a senha do usuário");
 			txtSenha.requestFocus();
+		} else if (cboPerfil.getSelectedItem().equals("")) {
+			JOptionPane.showMessageDialog(null, "Preencha o perfil do usuário");
+			cboPerfil.requestFocus();
 		} else {
 			// lógica principal
 			// CRUD Create
@@ -425,6 +428,8 @@ public class Usuarios extends JDialog {
 				limparCampos();
 				// fechar a conexão
 				con.close();
+			} catch (java.sql.SQLIntegrityConstraintViolationException se) {
+				JOptionPane.showInternalMessageDialog(null, "Este usuário já existe!");
 			} catch (Exception e) {
 				System.out.println(e);
 			}
@@ -466,6 +471,9 @@ public class Usuarios extends JDialog {
 		} else if (capturaSenha.length() == 0) {
 			JOptionPane.showMessageDialog(null, "Preencha a senha do usuário");
 			txtSenha.requestFocus();
+		} else if (cboPerfil.getSelectedItem().equals("")) {
+			JOptionPane.showMessageDialog(null, "Preencha o perfil do usuário!");
+			cboPerfil.requestFocus();
 		} else {
 
 			// lógica principal
@@ -500,26 +508,37 @@ public class Usuarios extends JDialog {
 		// lógica principal
 		// CRUD - Update
 		String update = "update usuarios set nome=?, login=?, perfil=? where id=?";
-		// tratamente de exceções
-		try {
-			// abrir a conexão
-			con = dao.conectar();
-			// preparar a query (instrução sql)
-			pst = con.prepareStatement(update);
-			pst.setString(1, txtNome.getText());
-			pst.setString(2, txtLogin.getText());
-			pst.setString(3, cboPerfil.getSelectedItem().toString());
-			pst.setString(4, txtID.getText());
-			// executar a query
-			pst.executeUpdate();
-			// confirmar para o usuário
-			JOptionPane.showMessageDialog(null, "Dados do Usuário editados com sucesso.");
-			// limpar os campos
-			limparCampos();
-			// fechar a conexão
-			con.close();
-		} catch (Exception e) {
-			System.out.println(e);
+		if (txtNome.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o nome do usuário");
+			txtNome.requestFocus();
+		} else if (txtLogin.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o login do usuário");
+			txtLogin.requestFocus();
+		} else if (cboPerfil.getSelectedItem().equals("")) {
+			JOptionPane.showMessageDialog(null, "Preencha o perfil do usuário!");
+			cboPerfil.requestFocus();
+		} else {
+			// tratamente de exceções
+			try {
+				// abrir a conexão
+				con = dao.conectar();
+				// preparar a query (instrução sql)
+				pst = con.prepareStatement(update);
+				pst.setString(1, txtNome.getText());
+				pst.setString(2, txtLogin.getText());
+				pst.setString(3, cboPerfil.getSelectedItem().toString());
+				pst.setString(4, txtID.getText());
+				// executar a query
+				pst.executeUpdate();
+				// confirmar para o usuário
+				JOptionPane.showMessageDialog(null, "Dados do Usuário editados com sucesso.");
+				// limpar os campos
+				limparCampos();
+				// fechar a conexão
+				con.close();
+			} catch (Exception e) {
+				System.out.println(e);
+			}
 		}
 
 	}
