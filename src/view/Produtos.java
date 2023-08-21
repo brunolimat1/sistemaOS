@@ -487,6 +487,8 @@ public class Produtos extends JDialog {
 		txtfornecedor.setText(null);
 		txtidfor.setText(null);
 		checkalt.setSelected(false);
+		scrollPaneFor.setVisible(false);
+		scrollPaneProd.setVisible(false);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -591,50 +593,58 @@ public class Produtos extends JDialog {
 
 	private void buscarProduto() {
 		String Cod = JOptionPane.showInputDialog(null, "Digite o Código do produto para buscar!");
-		String readCodigo = "select * from produtos inner join fornecedores on produtos.idfor = fornecedores.idfor where codigo = ?";
-		try {
-			con = dao.conectar();
-			pst = con.prepareStatement(readCodigo);
-			pst.setString(1, Cod);
-			rs = pst.executeQuery();
-			if (rs.next()) {
-				txtcodigo.setText(rs.getString(1));
-				txtbarcode.setText(rs.getString(2));
-				txtproduto.setText(rs.getString(3));
-				txtlote.setText(rs.getString(4));
-				txtDescricao.setText(rs.getNString(5));
-				txtfabricante.setText(rs.getString(7));
-				dateEnt.setDate(rs.getDate(8));
-				dateVal.setDate(rs.getDate(9));
-				txtestoque.setText(rs.getString(10));
-				txtestoquemin.setText(rs.getString(11));
-				cboUnidade.setSelectedItem(rs.getString(12));
-				txtlocalarm.setText(rs.getString(13));
-				txtcusto.setText(rs.getString(14));
-				txtlucro.setText(rs.getString(15));
-				txtidfor.setText(rs.getString(16));
-				txtfornecedor.setText(rs.getString(19));
-				Blob blob = (Blob) rs.getBlob(6);
-				byte[] img = blob.getBytes(1, (int) blob.length());
-				BufferedImage imagem = null;
-				try {
-					imagem = ImageIO.read(new ByteArrayInputStream(img));
-				} catch (Exception e) {
-					System.out.println(e);
+
+		if (Cod != null) {
+			String readCodigo = "select * from produtos inner join fornecedores on produtos.idfor = fornecedores.idfor where codigo = ?";
+
+			try {
+				con = dao.conectar();
+				pst = con.prepareStatement(readCodigo);
+				pst.setString(1, Cod);
+				rs = pst.executeQuery();
+				if (rs.next()) {
+					txtcodigo.setText(rs.getString(1));
+					txtbarcode.setText(rs.getString(2));
+					txtproduto.setText(rs.getString(3));
+					txtlote.setText(rs.getString(4));
+					txtDescricao.setText(rs.getNString(5));
+					txtfabricante.setText(rs.getString(7));
+					dateEnt.setDate(rs.getDate(8));
+					dateVal.setDate(rs.getDate(9));
+					txtestoque.setText(rs.getString(10));
+					txtestoquemin.setText(rs.getString(11));
+					cboUnidade.setSelectedItem(rs.getString(12));
+					txtlocalarm.setText(rs.getString(13));
+					txtcusto.setText(rs.getString(14));
+					txtlucro.setText(rs.getString(15));
+					txtidfor.setText(rs.getString(16));
+					txtfornecedor.setText(rs.getString(19));
+					Blob blob = (Blob) rs.getBlob(6);
+					byte[] img = blob.getBytes(1, (int) blob.length());
+					BufferedImage imagem = null;
+					try {
+						imagem = ImageIO.read(new ByteArrayInputStream(img));
+					} catch (Exception e) {
+						System.out.println(e);
+					}
+					ImageIcon icone = new ImageIcon(imagem);
+					Icon foto = new ImageIcon(icone.getImage().getScaledInstance(lblfoto.getWidth(),
+							lblfoto.getHeight(), Image.SCALE_SMOOTH));
+					lblfoto.setIcon(foto);
+				} else {
+					JOptionPane.showMessageDialog(null, "Produto não encontrado");
 				}
-				ImageIcon icone = new ImageIcon(imagem);
-				Icon foto = new ImageIcon(icone.getImage().getScaledInstance(lblfoto.getWidth(), lblfoto.getHeight(),
-						Image.SCALE_SMOOTH));
-				lblfoto.setIcon(foto);
-			} else {
-				JOptionPane.showMessageDialog(null, "Produto não encontrado");
+				con.close();
+			} catch (java.sql.SQLIntegrityConstraintViolationException se) {
+				JOptionPane.showInternalMessageDialog(null, "Já existe um produto com o código de barras cadastrado!");
+				txtbarcode.setText(null);
+				txtbarcode.requestFocus();
+			} catch (java.lang.NullPointerException se) {
+				JOptionPane.showInternalMessageDialog(null, "A imagem do Produto não foi encontrada!");
+			} catch (Exception e) {
+				e.printStackTrace();
+				;
 			}
-			con.close();
-		} catch (java.lang.NullPointerException se) {
-			JOptionPane.showInternalMessageDialog(null,"A imagem do Produto não foi encontrada!");
-		} catch (Exception e) {
-			e.printStackTrace();
-			;
 		}
 	}
 
@@ -677,6 +687,12 @@ public class Produtos extends JDialog {
 				JOptionPane.showMessageDialog(null, "Produto não encontrado");
 			}
 			con.close();
+		} catch (java.sql.SQLIntegrityConstraintViolationException se) {
+			JOptionPane.showInternalMessageDialog(null, "Já existe um produto com o código de barras cadastrado!");
+			txtbarcode.setText(null);
+			txtbarcode.requestFocus();
+		} catch (java.lang.NullPointerException se) {
+			JOptionPane.showInternalMessageDialog(null, "A imagem do Produto não foi encontrada!");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -742,6 +758,10 @@ public class Produtos extends JDialog {
 				JOptionPane.showMessageDialog(null, "Produto Cadastrado!");
 				limpar();
 				con.close();
+			} catch (java.sql.SQLIntegrityConstraintViolationException se) {
+				JOptionPane.showInternalMessageDialog(null, "Já existe um produto com o código de barras cadastrado!");
+				txtbarcode.setText(null);
+				txtbarcode.requestFocus();
 			} catch (Exception e) {
 				System.out.println(e);
 			}
@@ -985,7 +1005,7 @@ public class Produtos extends JDialog {
 		if (linha >= 0) {
 			// Query (instrução sql)
 			// limit (0,1) -> seleciona o índice 0 e 1 usuário da lista
-			String readListaProdutos = "select * from produtos where produto like '" + txtproduto.getText() + "%'"
+			String readListaProdutos = "select * from produtos inner join fornecedores on produtos.idfor = fornecedores.idfor where produto like '" + txtproduto.getText() + "%'"
 					+ "order by produto limit " + (linha) + " , 1";
 			try {
 				// abrir a conexão
@@ -998,6 +1018,7 @@ public class Produtos extends JDialog {
 					// esconder a lista
 					scrollPaneProd.setVisible(false);
 					// setar os campos
+				
 					txtcodigo.setText(rs.getString(1));
 					txtbarcode.setText(rs.getString(2));
 					txtproduto.setText(rs.getString(3));
@@ -1013,6 +1034,7 @@ public class Produtos extends JDialog {
 					txtcusto.setText(rs.getString(14));
 					txtlucro.setText(rs.getString(15));
 					txtidfor.setText(rs.getString(16));
+					txtfornecedor.setText(rs.getString(19));
 					Blob blob = (Blob) rs.getBlob(6);
 					byte[] img = blob.getBytes(1, (int) blob.length());
 					BufferedImage imagem = null;
@@ -1025,12 +1047,17 @@ public class Produtos extends JDialog {
 					Icon foto = new ImageIcon(icone.getImage().getScaledInstance(lblfoto.getWidth(),
 							lblfoto.getHeight(), Image.SCALE_SMOOTH));
 					lblfoto.setIcon(foto);
-					buscaridfornecedor();
 				} else {
 					JOptionPane.showMessageDialog(null, "Produto inexistente");
 				}
 				// fechar a conexão
 				con.close();
+			} catch (java.sql.SQLIntegrityConstraintViolationException se) {
+				JOptionPane.showInternalMessageDialog(null, "Já existe um produto com o código de barras cadastrado!");
+				txtbarcode.setText(null);
+				txtbarcode.requestFocus();
+			} catch (java.lang.NullPointerException se) {
+				JOptionPane.showInternalMessageDialog(null, "A imagem do Produto não foi encontrada!");
 			} catch (Exception e) {
 				System.out.println(e);
 			}
@@ -1039,7 +1066,7 @@ public class Produtos extends JDialog {
 			scrollPaneProd.setVisible(false);
 		}
 	}
-	
+
 	public void OnlyNumber(KeyEvent e) {
 		char c = e.getKeyChar();
 		if (Character.isLetter(c)) {

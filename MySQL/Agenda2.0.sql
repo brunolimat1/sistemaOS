@@ -88,3 +88,17 @@ values ('Robson','vava', md5('123@senac'),'user');
 
 ALTER TABLE servicos
 ADD constraint cliente UNIQUE (nome);
+
+-- reposição de estoque
+select codigo as código,produto,
+date_format(dataval, '%d/%m/%Y') as validade,
+estoque, estoquemin as estoque_mínimo
+from produtos where estoque < estoquemin;
+
+-- produtos vencidos
+select codigo as código,produto,
+date_format(dataval, '%d/%m/%Y') as validade, date_format(dataent, '%d/%m/%Y') as entrada
+from produtos where dataval < dataent;
+
+-- patrimônio(inventário) custo dos produtos
+select sum(custo * estoque)as Total from produtos;

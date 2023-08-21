@@ -408,26 +408,28 @@ public class Servicos extends JDialog {
 
 	private void buscar() {
 		String OS = JOptionPane.showInputDialog(null, "Digite o OS para buscar!");
-		try {
-			String read = "select * from servicos inner join clientes on servicos.idcli = clientes.idcli where OS = ?";
-			con = dao.conectar();
-			pst = con.prepareStatement(read);
-			pst.setString(1, OS);
-			rs = pst.executeQuery();
-			if (rs.next()) {
-				txtOS.setText(rs.getString(1));
-				txtData.setText(rs.getString(2));
-				txtEquipamentos.setText(rs.getString(3));
-				txtDefeito.setText(rs.getString(4));
-				txtValor.setText(rs.getString(5));
-				txtNome.setText(rs.getString(6));
-				txtID.setText(rs.getString(8));
-			} else {
-				JOptionPane.showMessageDialog(null, "OS não cadastrada!");
+		if (OS != null) {
+			try {
+				String read = "select * from servicos inner join clientes on servicos.idcli = clientes.idcli where OS = ?";
+				con = dao.conectar();
+				pst = con.prepareStatement(read);
+				pst.setString(1, OS);
+				rs = pst.executeQuery();
+				if (rs.next()) {
+					txtOS.setText(rs.getString(1));
+					txtData.setText(rs.getString(2));
+					txtEquipamentos.setText(rs.getString(3));
+					txtDefeito.setText(rs.getString(4));
+					txtValor.setText(rs.getString(5));
+					txtNome.setText(rs.getString(6));
+					txtID.setText(rs.getString(8));
+				} else {
+					JOptionPane.showMessageDialog(null, "OS não cadastrada!");
+				}
+				con.close();
+			} catch (Exception e) {
+				System.out.println(e);
 			}
-			con.close();
-		} catch (Exception e) {
-			System.out.println(e);
 		}
 
 	}// fim do método buscar
@@ -552,7 +554,7 @@ public class Servicos extends JDialog {
 						Paragraph os = new Paragraph("OS: " + rs.getString(1));
 						os.setAlignment(Element.ALIGN_LEFT);
 						document.add(os);
-						
+
 						Paragraph nome = new Paragraph("Nome: " + rs.getString(6));
 						nome.setAlignment(Element.ALIGN_LEFT);
 						document.add(nome);
