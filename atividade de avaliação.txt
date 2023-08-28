@@ -1,0 +1,18 @@
+Sistema para gestão de serviços e controle de estoque
+Prazo final de entrega: 06/09
+
+1) Criar um repositório GitHub com o nome do projeto
+2) Sincronizar o repositório com o computador local
+   (documentação: Aula 11 - UC 12)
+3) No GitHub:
+   - Personalizar o README.md
+   - Criar uma licença MIT
+   - Preencher a descrição(about)
+4) Projeto:
+   - Relatórios (adicionar reposição de estoque, validade e patrimônio)
+   - Tela de serviços (adicionar campos conforme necessidade)
+   - Impressão de OS (pesquisar no Google OS de clientes reais)
+   - Telas: Ajustar para 800x600 (padrão de sistemas desktop)
+   - UX: Melhorar a experiência do usuário
+   - Remover todos os BUGs
+   - Fazer testes (usar dados reais)
