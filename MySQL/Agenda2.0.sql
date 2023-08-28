@@ -90,10 +90,7 @@ ALTER TABLE servicos
 ADD constraint cliente UNIQUE (nome);
 
 -- reposição de estoque
-select codigo as código,produto,
-date_format(dataval, '%d/%m/%Y') as validade,
-estoque, estoquemin as estoque_mínimo
-from produtos where estoque < estoquemin;
+select codigo as código,produto,date_format(dataval, '%d/%m/%Y') as validade,estoque, estoquemin as estoque_mínimo from produtos where estoque < estoquemin;
 
 -- produtos vencidos
 select codigo as código,produto,
@@ -102,3 +99,7 @@ from produtos where dataval < dataent;
 
 -- patrimônio(inventário) custo dos produtos
 select sum(custo * estoque)as Total from produtos;
+
+select sum((custo + (custo * lucro)/100) * estoque) as total from produtos;
+
+select * from produtos inner join fornecedores on produtos.idfor = fornecedores.idfor where produto = 1;
