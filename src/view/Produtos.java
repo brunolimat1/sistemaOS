@@ -1005,8 +1005,8 @@ public class Produtos extends JDialog {
 		if (linha >= 0) {
 			// Query (instrução sql)
 			// limit (0,1) -> seleciona o índice 0 e 1 usuário da lista
-			String readListaProdutos = "select * from produtos inner join fornecedores on produtos.idfor = fornecedores.idfor where produto like '" + txtproduto.getText() + "%'"
-					+ "order by produto limit " + (linha) + " , 1";
+			String readListaProdutos = "select * from produtos inner join fornecedores on produtos.idfor = fornecedores.idfor where produto like '"
+					+ txtproduto.getText() + "%'" + "order by produto limit " + (linha) + " , 1";
 			try {
 				// abrir a conexão
 				con = dao.conectar();
@@ -1018,7 +1018,7 @@ public class Produtos extends JDialog {
 					// esconder a lista
 					scrollPaneProd.setVisible(false);
 					// setar os campos
-				
+
 					txtcodigo.setText(rs.getString(1));
 					txtbarcode.setText(rs.getString(2));
 					txtproduto.setText(rs.getString(3));
