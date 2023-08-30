@@ -403,7 +403,7 @@ public class Produtos extends JDialog {
 				if (checkalt.isSelected()) {
 					editar();
 				} else {
-					editarexcSenha();
+					editarexcFoto();
 				}
 			}
 		});
@@ -836,7 +836,7 @@ public class Produtos extends JDialog {
 		}
 	}
 
-	public void editarexcSenha() {
+	public void editarexcFoto() {
 		String comando = "update produtos set barcode=?,produto=?,lote=?,descricao=?,fabricante=?,dataval=?,estoque=?,estoquemin=?,unidade=?,localarm=?,custo=?,lucro=? where codigo=?";
 		if (txtbarcode.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o Código de barras do produto!");

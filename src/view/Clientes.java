@@ -69,8 +69,7 @@ public class Clientes extends JDialog {
 	
 	private JTextField txtNumero;
 	private JScrollPane scrollPane_1;
-	@SuppressWarnings("rawtypes")
-	private JList listClientes;
+	private JList<String> listClientes;
 	private JFormattedTextField txtCpf;
 
 	/**
@@ -83,6 +82,7 @@ public class Clientes extends JDialog {
 					Clientes dialog = new Clientes();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
+					dialog.setSize(800,600);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -95,6 +95,9 @@ public class Clientes extends JDialog {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Clientes() {
+		BorderLayout borderLayout = (BorderLayout) getContentPane().getLayout();
+		setResizable(false);
+		setLocationByPlatform(true);
 		setModal(true);
 		setTitle("Clientes");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Clientes.class.getResource("/img/clientes.png")));
@@ -105,7 +108,7 @@ public class Clientes extends JDialog {
 				scrollPane_1.setVisible(false);
 			}
 		});
-		setBounds(100, 100, 760, 502);
+		setBounds(100, 100, 760, 600);
 
 		JPanel contentPanel = new JPanel();
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -117,7 +120,7 @@ public class Clientes extends JDialog {
 		scrollPane_1.setBounds(60, 124, 380, 19);
 		contentPanel.add(scrollPane_1);
 		
-				listClientes = new JList();
+				listClientes = new JList<String>();
 				scrollPane_1.setViewportView(listClientes);
 				listClientes.addMouseListener(new MouseAdapter() {
 					@Override
@@ -544,7 +547,6 @@ public class Clientes extends JDialog {
 	/**
 	 * Método usado para listar o nome dos usuários na lista
 	 */
-	@SuppressWarnings("unchecked")
 	private void listarClientes() {
 		// System.out.println("teste");
 		// a linha abaixo cria um objeto usando como referência um vetor dinâmico, este

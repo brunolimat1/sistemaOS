@@ -68,6 +68,7 @@ public class Sobre extends JDialog {
 		contentPanel.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setToolTipText("MIT LICENSE");
 		lblNewLabel_3.setBorder(null);
 		lblNewLabel_3.setIcon(new ImageIcon(Sobre.class.getResource("/img/mit.png")));
 		lblNewLabel_3.setBounds(296, 122, 128, 128);
@@ -84,12 +85,11 @@ public class Sobre extends JDialog {
 		contentPanel.add(lblNewLabel_2_2);
 		
 		JLabel lblNewLabel_4 = new JLabel("");
+		lblNewLabel_4.setToolTipText("GITHUB");
 		lblNewLabel_4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblNewLabel_4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				@SuppressWarnings("unused")
-				String[] args;
 		        try{
 		            URI link = new URI("https://github.com/brunolimat1/sistemaOS");
 		            Desktop.getDesktop().browse(link);

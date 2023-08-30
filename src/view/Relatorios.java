@@ -1,7 +1,12 @@
 package view;
 
+import java.awt.Cursor;
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.Connection;
@@ -10,28 +15,19 @@ import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.util.Date;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.SwingConstants;
+import javax.swing.border.EtchedBorder;
 
 import com.itextpdf.text.Document;
-import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import model.DAO;
-
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.ImageIcon;
-import java.awt.Cursor;
-import java.awt.Toolkit;
-import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
 
 @SuppressWarnings("unused")
 public class Relatorios extends JDialog {
@@ -71,7 +67,7 @@ public class Relatorios extends JDialog {
 		setModal(true);
 		setBounds(100, 100, 642, 269);
 		getContentPane().setLayout(null);
-
+		
 		JButton btnClientes = new JButton("Clientes");
 		btnClientes.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		btnClientes.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -117,9 +113,11 @@ public class Relatorios extends JDialog {
 		btnEstoque.setToolTipText("Estoque");
 		btnEstoque.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnEstoque.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		btnEstoque.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnEstoque.setBounds(456, 62, 135, 140);
 		getContentPane().add(btnEstoque);
 		setLocationRelativeTo(null);
+
 
 	}// fim do construtor
 
@@ -424,4 +422,10 @@ public class Relatorios extends JDialog {
 			System.out.println(e);
 		}
 	}
+	private void Resolucao() {
+        Toolkit t = Toolkit.getDefaultToolkit();
+        Dimension dimensao = t.getScreenSize();
+        this.setSize((dimensao.width + 5), (dimensao.height - 38));
+
+ }
 }// fim do código
