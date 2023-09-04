@@ -103,3 +103,5 @@ select sum(custo * estoque)as Total from produtos;
 select sum((custo + (custo * lucro)/100) * estoque) as total from produtos;
 
 select * from produtos inner join fornecedores on produtos.idfor = fornecedores.idfor where produto = 1;
+
+select * from servicos inner join clientes on servicos.idcli = clientes.idcli where OS=1;

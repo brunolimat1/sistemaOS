@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +11,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,13 +31,11 @@ import javax.swing.border.EmptyBorder;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
-import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import model.DAO;
 import utils.Validador;
-import java.awt.Cursor;
 
 public class Servicos extends JDialog {
 	DAO dao = new DAO();
@@ -87,7 +85,7 @@ public class Servicos extends JDialog {
 	public Servicos() {
 		setModal(true);
 		setTitle("Serviços");
-		setBounds(100, 100, 612, 452);
+		setBounds(100, 100, 800, 600);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -102,7 +100,7 @@ public class Servicos extends JDialog {
 		scrollPane = new JScrollPane();
 		scrollPane.setVisible(false);
 		scrollPane.setBorder(null);
-		scrollPane.setBounds(448, 44, 138, 64);
+		scrollPane.setBounds(601, 84, 157, 29);
 		contentPanel.add(scrollPane);
 
 		listID = new JList();
@@ -115,24 +113,24 @@ public class Servicos extends JDialog {
 		});
 		{
 			JLabel lblNewLabel = new JLabel("OS:");
-			lblNewLabel.setBounds(27, 39, 24, 14);
+			lblNewLabel.setBounds(27, 58, 24, 14);
 			contentPanel.add(lblNewLabel);
 		}
 
 		JLabel lblData = new JLabel("Data:");
-		lblData.setBounds(27, 94, 35, 14);
+		lblData.setBounds(27, 128, 35, 14);
 		contentPanel.add(lblData);
 
 		JLabel lblEquipamentos = new JLabel("Equipamentos:");
-		lblEquipamentos.setBounds(27, 154, 89, 14);
+		lblEquipamentos.setBounds(29, 189, 89, 14);
 		contentPanel.add(lblEquipamentos);
 
 		JLabel lblDefeito = new JLabel("Defeito:");
-		lblDefeito.setBounds(27, 208, 46, 14);
+		lblDefeito.setBounds(27, 251, 46, 14);
 		contentPanel.add(lblDefeito);
 
 		JLabel lblValor = new JLabel("Valor:");
-		lblValor.setBounds(27, 272, 35, 14);
+		lblValor.setBounds(29, 322, 35, 14);
 		contentPanel.add(lblValor);
 
 		txtOS = new JTextField();
@@ -146,20 +144,20 @@ public class Servicos extends JDialog {
 		txtOS.addMouseListener(new MouseAdapter() {
 
 		});
-		txtOS.setBounds(55, 36, 131, 20);
+		txtOS.setBounds(55, 55, 131, 20);
 		contentPanel.add(txtOS);
 		txtOS.setColumns(10);
 		txtOS.setDocument(new Validador(11));
 
 		txtEquipamentos = new JTextField();
 		txtEquipamentos.setColumns(10);
-		txtEquipamentos.setBounds(118, 151, 468, 20);
+		txtEquipamentos.setBounds(120, 186, 638, 20);
 		contentPanel.add(txtEquipamentos);
 		txtEquipamentos.setDocument(new Validador(60));
 
 		txtDefeito = new JTextField();
 		txtDefeito.setColumns(10);
-		txtDefeito.setBounds(75, 205, 513, 20);
+		txtDefeito.setBounds(75, 248, 683, 20);
 		contentPanel.add(txtDefeito);
 		txtDefeito.setDocument(new Validador(60));
 
@@ -172,7 +170,7 @@ public class Servicos extends JDialog {
 			}
 		});
 		txtValor.setColumns(10);
-		txtValor.setBounds(65, 269, 138, 20);
+		txtValor.setBounds(67, 319, 352, 20);
 		contentPanel.add(txtValor);
 		txtValor.setDocument(new Validador(10));
 
@@ -184,7 +182,7 @@ public class Servicos extends JDialog {
 				buscar();
 			}
 		});
-		btnBuscar.setBounds(199, 11, 64, 64);
+		btnBuscar.setBounds(196, 26, 64, 64);
 		contentPanel.add(btnBuscar);
 
 		btnAdicionar = new JButton("");
@@ -195,7 +193,7 @@ public class Servicos extends JDialog {
 				adicionar();
 			}
 		});
-		btnAdicionar.setBounds(27, 333, 64, 64);
+		btnAdicionar.setBounds(55, 464, 64, 64);
 		contentPanel.add(btnAdicionar);
 
 		btnEditar = new JButton("");
@@ -206,7 +204,7 @@ public class Servicos extends JDialog {
 				editar();
 			}
 		});
-		btnEditar.setBounds(151, 333, 64, 64);
+		btnEditar.setBounds(199, 464, 64, 64);
 		contentPanel.add(btnEditar);
 
 		btnExcluir = new JButton("");
@@ -217,11 +215,11 @@ public class Servicos extends JDialog {
 				excluir();
 			}
 		});
-		btnExcluir.setBounds(275, 333, 64, 64);
+		btnExcluir.setBounds(355, 464, 64, 64);
 		contentPanel.add(btnExcluir);
 
 		JLabel lblIdDoCliente = new JLabel("Cliente:");
-		lblIdDoCliente.setBounds(401, 26, 46, 14);
+		lblIdDoCliente.setBounds(554, 68, 46, 14);
 		contentPanel.add(lblIdDoCliente);
 
 		txtNome = new JTextField();
@@ -233,7 +231,7 @@ public class Servicos extends JDialog {
 			}
 		});
 		txtNome.setColumns(10);
-		txtNome.setBounds(448, 23, 138, 20);
+		txtNome.setBounds(601, 65, 157, 20);
 		contentPanel.add(txtNome);
 		txtNome.setDocument(new Validador(30));
 
@@ -245,17 +243,17 @@ public class Servicos extends JDialog {
 				limparCampos();
 			}
 		});
-		btnLimpar.setBounds(395, 333, 64, 64);
+		btnLimpar.setBounds(522, 464, 64, 64);
 		contentPanel.add(btnLimpar);
 
 		txtData = new JFormattedTextField();
 		txtData.setEditable(false);
-		txtData.setBounds(65, 91, 138, 20);
+		txtData.setBounds(65, 125, 138, 20);
 		contentPanel.add(txtData);
 		txtData.setDocument(new Validador(20));
 
 		JLabel lblId = new JLabel("ID:");
-		lblId.setBounds(423, 51, 24, 14);
+		lblId.setBounds(565, 40, 24, 14);
 		contentPanel.add(lblId);
 
 		txtID = new JTextField();
@@ -268,7 +266,7 @@ public class Servicos extends JDialog {
 		});
 		txtID.setEditable(false);
 		txtID.setColumns(10);
-		txtID.setBounds(448, 48, 64, 20);
+		txtID.setBounds(601, 37, 100, 20);
 		contentPanel.add(txtID);
 		txtID.setDocument(new Validador(10));
 
@@ -280,7 +278,7 @@ public class Servicos extends JDialog {
 			}
 		});
 		btnPrint.setIcon(new ImageIcon(Servicos.class.getResource("/img/print.png")));
-		btnPrint.setBounds(504, 333, 72, 67);
+		btnPrint.setBounds(663, 461, 72, 67);
 		contentPanel.add(btnPrint);
 		setLocationRelativeTo(null);
 	}
@@ -465,10 +463,8 @@ public class Servicos extends JDialog {
 
 				con.close();
 			} catch (SQLException se) {
-				// TODO: handle exception
 				JOptionPane.showMessageDialog(null, se);
 			} catch (Exception e) {
-				// TODO: handle exception
 				JOptionPane.showMessageDialog(null, e);
 			}
 		}
@@ -526,80 +522,88 @@ public class Servicos extends JDialog {
 	 * Impressão da OS
 	 */
 	private void imprimirOS() {
-		// instanciar objeto para usar os métodos da biblioteca
-		Document document = new Document();
-		if (txtOS.getText().isEmpty()) {
-			JOptionPane.showInternalMessageDialog(null, "Selecione o número da OS antes de imprimir!");
-			txtOS.requestFocus();
-		} else {
-			// documento pdf
-			try {
-				// criar um documento em branco (pdf) de nome clientes.pdf
-				PdfWriter.getInstance(document, new FileOutputStream("os.pdf"));
-				// abrir o documento (formatar e inserir o conteúdo)
-				document.open();
-				String readOS = "select * from servicos inner join clientes on servicos.idcli = clientes.idcli where OS=?";
-				// conexão com o banco
-				try {
-					// abrir a conexão
-					con = dao.conectar();
-					// preparar a execução da query (instrução sql)
-					pst = con.prepareStatement(readOS);
-					pst.setString(1, txtOS.getText());
-					// executar a query
-					rs = pst.executeQuery();
-					// se existir a OS
-					if (rs.next()) {
-						// document.add(new Paragraph("OS: " + rs.getString(1)));
-						Paragraph os = new Paragraph("OS: " + rs.getString(1));
-						os.setAlignment(Element.ALIGN_LEFT);
-						document.add(os);
+	    if (txtOS.getText().isEmpty()) {
+	        JOptionPane.showMessageDialog(null, "Selecione o número da OS antes de imprimir!");
+	        txtOS.requestFocus();
+	        return; // Saia da função se o campo estiver vazio
+	    }
 
-						Paragraph nome = new Paragraph("Nome: " + rs.getString(6));
-						nome.setAlignment(Element.ALIGN_LEFT);
-						document.add(nome);
+	    // Criar o documento PDF
+	    Document document = new Document();
 
-						Paragraph DataOs = new Paragraph("Data OS: " + rs.getString(2));
-						DataOs.setAlignment(Element.ALIGN_LEFT);
-						document.add(DataOs);
+	    try {
+	        // Criar um arquivo PDF de saída com o nome "os.pdf"
+	        PdfWriter.getInstance(document, new FileOutputStream("os.pdf"));
+	        // Abrir o documento PDF para edição
+	        document.open();
 
-						Paragraph equipamento = new Paragraph("Equipamento: " + rs.getString(3));
-						equipamento.setAlignment(Element.ALIGN_LEFT);
-						document.add(equipamento);
+	        // Consultar o banco de dados para obter informações da OS
+	        String query = "SELECT * FROM servicos INNER JOIN clientes ON servicos.idcli = clientes.idcli WHERE OS=?";
+	        con = dao.conectar();
+	        pst = con.prepareStatement(query);
+	        pst.setString(1, txtOS.getText());
+	        rs = pst.executeQuery();
 
-						Paragraph Defeito = new Paragraph("Defeito: " + rs.getString(4));
-						Defeito.setAlignment(Element.ALIGN_LEFT);
-						document.add(Defeito);
+	        // Verificar se a OS existe
+	        if (rs.next()) {
+	            // Adicionar informações da OS ao documento PDF
+	        	
+				Paragraph osInfo = new Paragraph("3DPRINTECHGENIUS");
+		        osInfo.setAlignment(Element.ALIGN_CENTER);
+		        document.add(osInfo);
+		        
+		        Paragraph osInfo1 = new Paragraph("Assistência Técnica de Impressoras 3D");
+		        osInfo1.setAlignment(Element.ALIGN_CENTER);
+		        document.add(osInfo1);
+				
+	            Paragraph osInfo2 = new Paragraph("Ordem de Serviço N°: " + rs.getString(1));
+	            osInfo2.setAlignment(Element.ALIGN_LEFT);
+	            document.add(osInfo2);
+	            
+	            Paragraph osInfo3 = new Paragraph("Data da OS: " + rs.getString(2));
+		        osInfo3.setAlignment(Element.ALIGN_LEFT);
+		        document.add(osInfo3);
+	            
+	            Paragraph osInfo6 = new Paragraph("Equipamento Defeituoso: " + rs.getString(3));
+		        osInfo6.setAlignment(Element.ALIGN_LEFT);
+		        document.add(osInfo6);
 
-						Paragraph Valor = new Paragraph("Valor: " + rs.getString(5));
-						Valor.setAlignment(Element.ALIGN_LEFT);
-						document.add(Valor);
+		        Paragraph osInfo4 = new Paragraph("Defeito Encontrado: " + rs.getString(4));
+		        osInfo4.setAlignment(Element.ALIGN_LEFT);
+		        document.add(osInfo4);
+		        
+		        Paragraph osInfo5 = new Paragraph("Valor: " + rs.getString(5));
+		        osInfo5.setAlignment(Element.ALIGN_LEFT);
+		        document.add(osInfo5);
+		        
+		        Paragraph osInfo7 = new Paragraph("Cliente: " + rs.getString(6));
+		        osInfo7.setAlignment(Element.ALIGN_LEFT);
+		        document.add(osInfo7);
+		        
+	            // Adicionar mais informações da OS, se necessário
 
-						// imprimir imagens
-						Image imagem = Image.getInstance(Servicos.class.getResource("/img/printer3d.png"));
-						imagem.scaleToFit(128, 128);
-						imagem.setAbsolutePosition(20, 550);
-						document.add(imagem);
-					}
-					// fechar a conexão com o banco
-					con.close();
-				} catch (IOException se) {
-					JOptionPane.showInternalMessageDialog(null, "OS não encontrada.");
-				}
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-			// fechar o documento (pronto para "impressão" (exibir o pdf))
-			document.close();
-			// Abrir o desktop do sistema operacional e usar o leitor padrão
-			// de pdf para exibir o documento
-			try {
-				Desktop.getDesktop().open(new File("os.pdf"));
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-		}
+	            // Fechar a conexão com o banco de dados
+	            con.close();
+	        } else {
+	            // Se a OS não foi encontrada, exibir uma mensagem
+	            JOptionPane.showMessageDialog(null, "A Ordem de Serviço não foi encontrada.");
+	        }
+
+	    } catch (Exception e) {
+	        System.out.println(e);
+	    } finally {
+	        // Fechar o documento PDF
+	        document.close();
+	    }
+
+	    // Abrir o arquivo PDF com o leitor padrão do sistema operacional
+	    try {
+	        Desktop.getDesktop().open(new File("os.pdf"));
+	    } catch (Exception e) {
+	        System.out.println(e);
+	    }
 	}
+
 
 	public void OnlyNumber(KeyEvent e) {
 		char c = e.getKeyChar();

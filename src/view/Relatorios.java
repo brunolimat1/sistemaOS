@@ -65,7 +65,7 @@ public class Relatorios extends JDialog {
 		setTitle("Relatórios");
 		setResizable(false);
 		setModal(true);
-		setBounds(100, 100, 642, 269);
+		setBounds(100, 100, 644, 277);
 		getContentPane().setLayout(null);
 		
 		JButton btnClientes = new JButton("Clientes");
@@ -261,38 +261,22 @@ public class Relatorios extends JDialog {
 	}
 
 	private void relatorioEstoque() {
-		// instanciar um objeto para construir a página pdf
 		Document document = new Document();
-		// configurar como A4 e modo paisagem
-		// document.setPageSize(PageSize.A4.rotate());
-		// gerar o documento pdf
 		try {
-			// criar um documento em branco (pdf) de nome clientes.pdf
 			PdfWriter.getInstance(document, new FileOutputStream("estoque.pdf"));
-			// abrir o documento (formatar e inserir o conteúdo)
 			document.open();
-			// adicionar a data atual
 			Date dataRelatorio = new Date();
 			DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
 			document.add(new Paragraph(formatador.format(dataRelatorio)));
-			// adicionar um páragrafo
 			document.add(new Paragraph(" "));
 			document.add(new Paragraph("Reposição de Estoque:"));
-			document.add(new Paragraph(" ")); // pular uma linha
-			// ----------------------------------------------------------
-			// query (instrução sql para gerar o relatório de clientes)
+			document.add(new Paragraph(" "));
 			String readEstoque = "select codigo as código,produto,date_format(dataval, '%d/%m/%Y') as validade,estoque, estoquemin as estoque_mínimo from produtos where estoque < estoquemin";
 			try {
-				// abrir a conexão com o banco
 				con = dao.conectar();
-				// preparar a query (executar a instrução sql)
 				pst = con.prepareStatement(readEstoque);
-				// obter o resultado (trazer do banco de dados)
 				rs = pst.executeQuery();
-				// atenção uso do while para trazer todos os clientes
-				// Criar uma tabela de duas colunas usando o framework(itextPDF)
-				PdfPTable tabela = new PdfPTable(5); // (2) número de colunas
-				// Criar o cabeçalho da tabela
+				PdfPTable tabela = new PdfPTable(5);
 				PdfPCell col1 = new PdfPCell(new Paragraph("Código"));
 				PdfPCell col2 = new PdfPCell(new Paragraph("Produto"));
 				PdfPCell col3 = new PdfPCell(new Paragraph("Validade"));
@@ -304,7 +288,6 @@ public class Relatorios extends JDialog {
 				tabela.addCell(col4);
 				tabela.addCell(col5);
 				while (rs.next()) {
-					// popular a tabela
 					tabela.addCell(rs.getString(1));
 					tabela.addCell(rs.getString(2));
 					tabela.addCell(rs.getString(3));
@@ -312,21 +295,14 @@ public class Relatorios extends JDialog {
 					tabela.addCell(rs.getString(5));
 				}
 				document.add(tabela);
-				try {
 					document.add(new Paragraph(" "));
 					document.add(new Paragraph("Validade já expirada:"));
 					document.add(new Paragraph(" "));
 					String readValidade = "select codigo as código,produto,date_format(dataval, '%d/%m/%Y') as validade, date_format(dataent, '%d/%m/%Y') as entrada from produtos where dataval < dataent";
-					try {
 						con = dao.conectar();
-						// preparar a query (executar a instrução sql)
 						pst = con.prepareStatement(readValidade);
-						// obter o resultado (trazer do banco de dados)
 						rs = pst.executeQuery();
-						// atenção uso do while para trazer todos os clientes
-						// Criar uma tabela de duas colunas usando o framework(itextPDF)
-						PdfPTable tabela2 = new PdfPTable(4); // (2) número de colunas
-						// Criar o cabeçalho da tabela
+						PdfPTable tabela2 = new PdfPTable(4);
 						PdfPCell col6 = new PdfPCell(new Paragraph("Código"));
 						PdfPCell col7 = new PdfPCell(new Paragraph("Produto"));
 						PdfPCell col8 = new PdfPCell(new Paragraph("Data de Validade"));
@@ -336,86 +312,48 @@ public class Relatorios extends JDialog {
 						tabela2.addCell(col8);
 						tabela2.addCell(col9);
 						while (rs.next()) {
-							// popular a tabela
 							tabela2.addCell(rs.getString(1));
 							tabela2.addCell(rs.getString(2));
 							tabela2.addCell(rs.getString(3));
 							tabela2.addCell(rs.getString(4));
 						}
 						document.add(tabela2);
-						try {
 							document.add(new Paragraph(" "));
 							document.add(new Paragraph("Patrimônio (Custo):"));
 							document.add(new Paragraph(" "));
 							String readCusto = "select sum(custo * estoque)as Total from produtos";
-							try {
 								con = dao.conectar();
-								// preparar a query (executar a instrução sql)
 								pst = con.prepareStatement(readCusto);
-								// obter o resultado (trazer do banco de dados)
 								rs = pst.executeQuery();
-								// atenção uso do while para trazer todos os clientes
-								// Criar uma tabela de duas colunas usando o framework(itextPDF)
-								PdfPTable tabela3 = new PdfPTable(1); // (2) número de colunas
-								// Criar o cabeçalho da tabela
+								PdfPTable tabela3 = new PdfPTable(1);
 								PdfPCell col10 = new PdfPCell(new Paragraph("Custo"));
 								tabela3.addCell(col10);
 								while (rs.next()) {
-									// popular a tabela
 									tabela3.addCell(rs.getString(1));
 								}
 								document.add(tabela3);
-								try {
 									document.add(new Paragraph(" "));
 									document.add(new Paragraph("Patrimônio (Venda):"));
 									document.add(new Paragraph(" "));
 									String readVenda = "select sum((custo + (custo * lucro)/100) * estoque) as total from produtos";
-									try {
 										con = dao.conectar();
-										// preparar a query (executar a instrução sql)
 										pst = con.prepareStatement(readVenda);
-										// obter o resultado (trazer do banco de dados)
 										rs = pst.executeQuery();
-										// atenção uso do while para trazer todos os clientes
-										// Criar uma tabela de duas colunas usando o framework(itextPDF)
-										PdfPTable tabela4 = new PdfPTable(1); // (2) número de colunas
-										// Criar o cabeçalho da tabela
+										PdfPTable tabela4 = new PdfPTable(1);
 										PdfPCell col11 = new PdfPCell(new Paragraph("Venda"));
 										tabela4.addCell(col11);
 										while (rs.next()) {
-											// popular a tabela
 											tabela4.addCell(rs.getString(1));
 										}
 										document.add(tabela4);
-								con.close();
-									} catch (Exception e) {
-										e.printStackTrace();
-									}
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+										con.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// fechar o documento (pronto para "impressão" (exibir o pdf))
 		document.close();
-		// Abrir o desktop do sistema operacional e usar o leitor padrão
-		// de pdf para exibir o documento
 		try {
 			Desktop.getDesktop().open(new File("estoque.pdf"));
 		} catch (Exception e) {
@@ -428,4 +366,4 @@ public class Relatorios extends JDialog {
         this.setSize((dimensao.width + 5), (dimensao.height - 38));
 
  }
-}// fim do código
+}

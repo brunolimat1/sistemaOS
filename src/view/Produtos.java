@@ -116,13 +116,13 @@ public class Produtos extends JDialog {
 				scrollPaneProd.setVisible(false);
 			}
 		});
-		setBounds(100, 100, 910, 601);
+		setBounds(100, 100, 800, 600);
 		getContentPane().setLayout(null);
 
 		scrollPaneProd = new JScrollPane();
 		scrollPaneProd.setBorder(null);
 		scrollPaneProd.setVisible(false);
-		scrollPaneProd.setBounds(76, 161, 339, 34);
+		scrollPaneProd.setBounds(76, 161, 268, 23);
 		getContentPane().add(scrollPaneProd);
 
 		listProd = new JList();
@@ -148,7 +148,7 @@ public class Produtos extends JDialog {
 				}
 			}
 		});
-		txtbarcode.setBounds(76, 39, 339, 20);
+		txtbarcode.setBounds(76, 39, 268, 20);
 		getContentPane().add(txtbarcode);
 		txtbarcode.setColumns(10);
 		txtbarcode.setDocument(new Validador(50));
@@ -159,7 +159,7 @@ public class Produtos extends JDialog {
 
 		txtcodigo = new JTextField();
 		txtcodigo.setEditable(false);
-		txtcodigo.setBounds(76, 87, 184, 20);
+		txtcodigo.setBounds(76, 87, 91, 20);
 		getContentPane().add(txtcodigo);
 		txtcodigo.setColumns(10);
 
@@ -171,7 +171,7 @@ public class Produtos extends JDialog {
 			}
 		});
 		btnbuscarcod.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnbuscarcod.setBounds(270, 86, 134, 23);
+		btnbuscarcod.setBounds(195, 86, 134, 23);
 		getContentPane().add(btnbuscarcod);
 
 		JLabel lblNewLabel_2 = new JLabel("Produto");
@@ -185,17 +185,17 @@ public class Produtos extends JDialog {
 				listarProdutos();
 			}
 		});
-		txtproduto.setBounds(76, 143, 339, 20);
+		txtproduto.setBounds(76, 143, 268, 20);
 		getContentPane().add(txtproduto);
 		txtproduto.setColumns(10);
 		txtproduto.setDocument(new Validador(50));
 
 		JLabel lblNewLabel_3 = new JLabel("Lote");
-		lblNewLabel_3.setBounds(40, 371, 44, 14);
+		lblNewLabel_3.setBounds(22, 299, 44, 14);
 		getContentPane().add(lblNewLabel_3);
 
 		txtlote = new JTextField();
-		txtlote.setBounds(76, 369, 114, 17);
+		txtlote.setBounds(58, 297, 114, 17);
 		getContentPane().add(txtlote);
 		txtlote.setColumns(10);
 		txtlote.setDocument(new Validador(20));
@@ -205,24 +205,24 @@ public class Produtos extends JDialog {
 		getContentPane().add(lblNewLabel_4);
 
 		ScpDesc = new JScrollPane();
-		ScpDesc.setBounds(83, 206, 366, 140);
+		ScpDesc.setBounds(83, 206, 261, 71);
 		getContentPane().add(ScpDesc);
 
 		txtDescricao = new JTextArea();
 		ScpDesc.setViewportView(txtDescricao);
 
 		JLabel lblNewLabel_5 = new JLabel("Fabricante");
-		lblNewLabel_5.setBounds(213, 368, 84, 14);
+		lblNewLabel_5.setBounds(195, 296, 84, 14);
 		getContentPane().add(lblNewLabel_5);
 
 		txtfabricante = new JTextField();
-		txtfabricante.setBounds(280, 368, 145, 18);
+		txtfabricante.setBounds(262, 296, 145, 18);
 		getContentPane().add(txtfabricante);
 		txtfabricante.setColumns(10);
 		txtfabricante.setDocument(new Validador(50));
 
 		JLabel lblNewLabel_6 = new JLabel("Estoque");
-		lblNewLabel_6.setBounds(22, 415, 52, 14);
+		lblNewLabel_6.setBounds(22, 340, 52, 14);
 		getContentPane().add(lblNewLabel_6);
 
 		txtestoque = new JTextField();
@@ -232,13 +232,13 @@ public class Produtos extends JDialog {
 				OnlyNumber(e);
 			}
 		});
-		txtestoque.setBounds(76, 412, 80, 20);
+		txtestoque.setBounds(76, 337, 80, 20);
 		getContentPane().add(txtestoque);
 		txtestoque.setColumns(10);
 		txtestoque.setDocument(new Validador(10));
 
 		JLabel lblNewLabel_7 = new JLabel("Estoque Mínimo");
-		lblNewLabel_7.setBounds(195, 415, 107, 14);
+		lblNewLabel_7.setBounds(195, 340, 107, 14);
 		getContentPane().add(lblNewLabel_7);
 
 		txtestoquemin = new JTextField();
@@ -248,34 +248,34 @@ public class Produtos extends JDialog {
 				OnlyNumber(e);
 			}
 		});
-		txtestoquemin.setBounds(292, 412, 75, 20);
+		txtestoquemin.setBounds(292, 337, 75, 20);
 		getContentPane().add(txtestoquemin);
 		txtestoquemin.setColumns(10);
 		txtestoquemin.setDocument(new Validador(10));
 
 		JLabel lblNewLabel_8 = new JLabel("Unidade");
-		lblNewLabel_8.setBounds(22, 510, 52, 14);
+		lblNewLabel_8.setBounds(22, 424, 52, 14);
 		getContentPane().add(lblNewLabel_8);
 
 		cboUnidade = new JComboBox();
 		cboUnidade.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		cboUnidade.setModel(new DefaultComboBoxModel(new String[] { "", "UN", "CX", "PC", "Kg", "m" }));
-		cboUnidade.setBounds(76, 509, 80, 23);
+		cboUnidade.setBounds(76, 420, 80, 23);
 		getContentPane().add(cboUnidade);
 
 		JLabel lblNewLabel_9 = new JLabel("Local");
-		lblNewLabel_9.setBounds(189, 513, 52, 14);
+		lblNewLabel_9.setBounds(189, 424, 52, 14);
 		getContentPane().add(lblNewLabel_9);
 
 		txtlocalarm = new JTextField();
-		txtlocalarm.setBounds(228, 510, 123, 22);
+		txtlocalarm.setBounds(228, 421, 123, 22);
 		getContentPane().add(txtlocalarm);
 		txtlocalarm.setColumns(10);
 		txtlocalarm.setDocument(new Validador(50));
 
 		Panel panel = new Panel();
 		panel.setBackground(UIManager.getColor("Button.light"));
-		panel.setBounds(489, 42, 360, 62);
+		panel.setBounds(414, 39, 360, 62);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
@@ -339,7 +339,7 @@ public class Produtos extends JDialog {
 		panel.add(btnbuscarfornecedor);
 
 		JLabel lblNewLabel_12 = new JLabel("Custo");
-		lblNewLabel_12.setBounds(28, 466, 56, 14);
+		lblNewLabel_12.setBounds(22, 381, 56, 14);
 		getContentPane().add(lblNewLabel_12);
 
 		txtcusto = new JTextField();
@@ -349,13 +349,13 @@ public class Produtos extends JDialog {
 				OnlyNumber(e);
 			}
 		});
-		txtcusto.setBounds(76, 466, 75, 20);
+		txtcusto.setBounds(70, 381, 75, 20);
 		getContentPane().add(txtcusto);
 		txtcusto.setColumns(10);
 		txtcusto.setDocument(new Validador(20));
 
 		JLabel lblNewLabel_12_1 = new JLabel("Lucro");
-		lblNewLabel_12_1.setBounds(181, 466, 46, 14);
+		lblNewLabel_12_1.setBounds(175, 381, 46, 14);
 		getContentPane().add(lblNewLabel_12_1);
 
 		txtlucro = new JTextField();
@@ -367,21 +367,21 @@ public class Produtos extends JDialog {
 		});
 		txtlucro.setText("0");
 		txtlucro.setColumns(10);
-		txtlucro.setBounds(223, 463, 37, 20);
+		txtlucro.setBounds(217, 378, 37, 20);
 		getContentPane().add(txtlucro);
 		txtlucro.setDocument(new Validador(10));
 
 		JLabel lblNewLabel_13 = new JLabel("%");
 		lblNewLabel_13.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel_13.setBounds(265, 463, 21, 20);
+		lblNewLabel_13.setBounds(259, 378, 21, 20);
 		getContentPane().add(lblNewLabel_13);
 
 		JLabel lblNewLabel_14 = new JLabel("Entrada");
-		lblNewLabel_14.setBounds(423, 412, 62, 14);
+		lblNewLabel_14.setBounds(62, 469, 62, 14);
 		getContentPane().add(lblNewLabel_14);
 
 		JLabel lblNewLabel_15 = new JLabel("Validade");
-		lblNewLabel_15.setBounds(423, 469, 62, 14);
+		lblNewLabel_15.setBounds(245, 469, 62, 14);
 		getContentPane().add(lblNewLabel_15);
 
 		btnCadastrar = new JButton("");
@@ -394,7 +394,7 @@ public class Produtos extends JDialog {
 		btnCadastrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnCadastrar.setBorder(null);
 		btnCadastrar.setIcon(new ImageIcon(Produtos.class.getResource("/img/add.png")));
-		btnCadastrar.setBounds(576, 476, 48, 48);
+		btnCadastrar.setBounds(458, 452, 48, 48);
 		getContentPane().add(btnCadastrar);
 
 		btnEditar = new JButton("");
@@ -411,7 +411,7 @@ public class Produtos extends JDialog {
 		btnEditar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnEditar.setBorder(null);
 		btnEditar.setIcon(new ImageIcon(Produtos.class.getResource("/img/edit.png")));
-		btnEditar.setBounds(653, 476, 48, 48);
+		btnEditar.setBounds(535, 452, 48, 48);
 		getContentPane().add(btnEditar);
 
 		btnDeletar = new JButton("");
@@ -424,14 +424,14 @@ public class Produtos extends JDialog {
 		btnDeletar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnDeletar.setBorder(null);
 		btnDeletar.setIcon(new ImageIcon(Produtos.class.getResource("/img/delete.png")));
-		btnDeletar.setBounds(732, 476, 48, 48);
+		btnDeletar.setBounds(614, 452, 48, 48);
 		getContentPane().add(btnDeletar);
 
 		lblfoto = new JLabel("");
 		lblfoto.setHorizontalAlignment(SwingConstants.CENTER);
 		lblfoto.setIcon(new ImageIcon(Produtos.class.getResource("/img/photo.png")));
 		lblfoto.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		lblfoto.setBounds(499, 110, 342, 280);
+		lblfoto.setBounds(424, 107, 342, 280);
 		getContentPane().add(lblfoto);
 
 		btnLimpar = new JButton("");
@@ -444,15 +444,15 @@ public class Produtos extends JDialog {
 		btnLimpar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnLimpar.setBorder(null);
 		btnLimpar.setIcon(new ImageIcon(Produtos.class.getResource("/img/eraser.png")));
-		btnLimpar.setBounds(814, 476, 48, 48);
+		btnLimpar.setBounds(696, 452, 48, 48);
 		getContentPane().add(btnLimpar);
 
 		dateEnt = new JDateChooser();
-		dateEnt.setBounds(383, 437, 145, 20);
+		dateEnt.setBounds(22, 494, 145, 20);
 		getContentPane().add(dateEnt);
 
 		dateVal = new JDateChooser();
-		dateVal.setBounds(383, 494, 145, 20);
+		dateVal.setBounds(205, 494, 145, 20);
 		getContentPane().add(dateVal);
 
 		checkalt = new JCheckBox("Alterar Imagem");
@@ -464,8 +464,10 @@ public class Produtos extends JDialog {
 				}
 			}
 		});
-		checkalt.setBounds(617, 397, 134, 23);
+		checkalt.setBounds(538, 394, 134, 23);
 		getContentPane().add(checkalt);
+		
+		setLocationRelativeTo(null);
 	}// fim do código
 
 	private void limpar() {
