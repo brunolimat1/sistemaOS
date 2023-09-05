@@ -40,15 +40,11 @@ import java.awt.Cursor;
 
 public class Clientes extends JDialog {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	DAO dao = new DAO();
 	private Connection con;
 	private PreparedStatement pst;
 	private ResultSet rs;
-
 	private JTextField txtNome;
 	private JTextField txtEndereco;
 	private JFormattedTextField txtTelefone;
@@ -66,15 +62,11 @@ public class Clientes extends JDialog {
 	private JTextField txtCidade;
 	private JLabel lblUF;
 	private JComboBox<?> cboUf;
-	
 	private JTextField txtNumero;
 	private JScrollPane scrollPane_1;
 	private JList<String> listClientes;
 	private JFormattedTextField txtCpf;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -82,7 +74,7 @@ public class Clientes extends JDialog {
 					Clientes dialog = new Clientes();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
-					dialog.setSize(800,600);
+					dialog.setSize(800, 600);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -90,9 +82,6 @@ public class Clientes extends JDialog {
 		});
 	}
 
-	/**
-	 * Create the dialog.
-	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Clientes() {
 		setResizable(false);
@@ -103,7 +92,6 @@ public class Clientes extends JDialog {
 		getContentPane().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// clicar no painel do JDialog
 				scrollPane_1.setVisible(false);
 			}
 		});
@@ -118,16 +106,16 @@ public class Clientes extends JDialog {
 		scrollPane_1.setBorder(null);
 		scrollPane_1.setBounds(60, 158, 380, 19);
 		contentPanel.add(scrollPane_1);
-		
-				listClientes = new JList<String>();
-				scrollPane_1.setViewportView(listClientes);
-				listClientes.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						buscarClienteLista();
-					}
-				});
-				listClientes.setBorder(null);
+
+		listClientes = new JList<String>();
+		scrollPane_1.setViewportView(listClientes);
+		listClientes.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				buscarClienteLista();
+			}
+		});
+		listClientes.setBorder(null);
 
 		JLabel lblNewLabel = new JLabel("Cadastro de Clientes");
 		lblNewLabel.setBounds(289, 11, 151, 19);
@@ -331,33 +319,32 @@ public class Clientes extends JDialog {
 		txtNumero.setBounds(639, 241, 135, 20);
 		contentPanel.add(txtNumero);
 		txtNumero.setDocument(new Validador(10));
-		
+
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setIcon(new ImageIcon(Clientes.class.getResource("/img/clientes.png")));
 		lblNewLabel_1.setFont(new Font("Swis721 Lt BT", Font.BOLD, 15));
 		lblNewLabel_1.setBounds(331, 411, 128, 128);
 		contentPanel.add(lblNewLabel_1);
-				
-				JLabel lblCpf = new JLabel("CPF:");
-				lblCpf.setFont(new Font("Swis721 Lt BT", Font.PLAIN, 15));
-				lblCpf.setBounds(13, 188, 64, 19);
-				contentPanel.add(lblCpf);
-				
-				txtCpf = new JFormattedTextField();
-				txtCpf.addKeyListener(new KeyAdapter() {
-					@Override
-					public void keyTyped(KeyEvent e) {
-						OnlyNumber(e);
-					}
-				});
-				txtCpf.setBounds(63, 189, 314, 19);
-				contentPanel.add(txtCpf);
-				
-				txtCpf.setDocument(new Validador(50));
-				
-				setLocationRelativeTo(null);
 
-	}// FIM DO CONSTRUTOR
+		JLabel lblCpf = new JLabel("CPF:");
+		lblCpf.setFont(new Font("Swis721 Lt BT", Font.PLAIN, 15));
+		lblCpf.setBounds(13, 188, 64, 19);
+		contentPanel.add(lblCpf);
+
+		txtCpf = new JFormattedTextField();
+		txtCpf.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				OnlyNumber(e);
+			}
+		});
+		txtCpf.setBounds(63, 189, 314, 19);
+		contentPanel.add(txtCpf);
+		txtCpf.setDocument(new Validador(50));
+
+		setLocationRelativeTo(null);
+
+	}
 
 	private void limpar() {
 		txtID.setText(null);
@@ -491,22 +478,13 @@ public class Clientes extends JDialog {
 			int confirma = JOptionPane.showConfirmDialog(null, "Confirma a exclusão deste usuário?", "Atenção!",
 					JOptionPane.YES_NO_OPTION);
 			if (confirma == JOptionPane.YES_OPTION) {
-				// CRUD - Delete
 				String delete = "delete from clientes where idcli=?";
-				// tratamento de exceções
 				try {
-					// abrir a conexão
 					con = dao.conectar();
-					// preparar a query (instrução sql)
 					pst = con.prepareStatement(delete);
-					// substituir a ? pelo id do contato
 					pst.setString(1, txtID.getText());
-					// executar a query
 					pst.executeUpdate();
-					// limpar campos
 					limpar();
-					// exibir uma mensagem ao usuário
-					// fechar a conexão
 					con.close();
 					JOptionPane.showMessageDialog(null, "Cliente Excluído!");
 				} catch (java.sql.SQLIntegrityConstraintViolationException se) {
@@ -519,66 +497,38 @@ public class Clientes extends JDialog {
 
 	}
 
-	/**
-	 * Método usado para listar o nome dos usuários na lista
-	 */
 	private void listarClientes() {
-		// System.out.println("teste");
-		// a linha abaixo cria um objeto usando como referência um vetor dinâmico, este
-		// objeto irá temporariamente armazenar os nomes
 		DefaultListModel<String> modelo = new DefaultListModel<>();
-		// setar o modelo (vetor na lista)
 		listClientes.setModel(modelo);
-		// Query (instrução sql)
 		String readLista = "select * from clientes where nome like '" + txtNome.getText() + "%'" + "order by nome";
 		try {
-			// abrir a conexão
 			con = dao.conectar();
-			// preparar a query (instrução sql)
 			pst = con.prepareStatement(readLista);
-			// executar a query e trazer o resultado para lista
 			rs = pst.executeQuery();
-			// uso do while para trazer os usuários enquanto existir
 			while (rs.next()) {
-				// mostrar a barra de rolagem (scrollpane)
 				scrollPane_1.setVisible(true);
-				// adicionar os usuarios no vetor -> lista
 				modelo.addElement(rs.getString(2));
-				// esconder o scrollpane se nenhuma letra for digitada
 				if (txtNome.getText().isEmpty()) {
 					scrollPane_1.setVisible(false);
 				}
 			}
-			// fechar a conexão
 			con.close();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 
-	/**
-	 * Método que busca o usuário selecionado da lista
-	 */
 	private void buscarClienteLista() {
-		// System.out.println("teste");
-		// variável que captura o índice da linha da lista
 		int linha = listClientes.getSelectedIndex();
 		if (linha >= 0) {
-			// Query (instrução sql)
-			// limit (0,1) -> seleciona o índice 0 e 1 usuário da lista
 			String readListaCliente = "select * from clientes where nome like '" + txtNome.getText() + "%'"
 					+ "order by nome limit " + (linha) + " , 1";
 			try {
-				// abrir a conexão
 				con = dao.conectar();
-				// preparar a query para execução
 				pst = con.prepareStatement(readListaCliente);
-				// executar e obter o resultado
 				rs = pst.executeQuery();
 				if (rs.next()) {
-					// esconder a lista
 					scrollPane_1.setVisible(false);
-					// setar os campos
 					txtID.setText(rs.getString(1));
 					txtNome.setText(rs.getString(2));
 					txtTelefone.setText(rs.getString(3));
@@ -597,20 +547,15 @@ public class Clientes extends JDialog {
 				} else {
 					JOptionPane.showMessageDialog(null, "Usuário inexistente");
 				}
-				// fechar a conexão
 				con.close();
 			} catch (Exception e) {
 				System.out.println(e);
 			}
 		} else {
-			// se não existir no banco um usuário da lista
 			scrollPane_1.setVisible(false);
 		}
 	}
 
-	/**
-	 * buscarCep
-	 */
 	private void buscarCep() {
 		if (txtCep.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o CEP do Cliente!");
@@ -655,7 +600,7 @@ public class Clientes extends JDialog {
 
 		}
 	}
-	
+
 	public void OnlyNumber(KeyEvent e) {
 		char c = e.getKeyChar();
 		if (Character.isLetter(c)) {
@@ -664,5 +609,3 @@ public class Clientes extends JDialog {
 	}
 
 }
-
-// FIM DO CÓDIGO

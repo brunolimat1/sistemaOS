@@ -18,15 +18,8 @@ import java.awt.Cursor;
 
 public class Sobre extends JDialog {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		try {
 			Sobre dialog = new Sobre();
@@ -36,10 +29,7 @@ public class Sobre extends JDialog {
 			e.printStackTrace();
 		}
 	}
-
-	/**
-	 * Create the dialog.
-	 */
+	
 	public Sobre() {
 		setModal(true);
 		setTitle("Sobre ");

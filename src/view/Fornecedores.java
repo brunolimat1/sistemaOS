@@ -40,9 +40,6 @@ import utils.Validador;
 
 public class Fornecedores extends JDialog {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	DAO dao = new DAO();
 	private Connection con;
@@ -78,9 +75,6 @@ public class Fornecedores extends JDialog {
 	private JTextField txtSite;
 	private JTextField txtIE;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -95,9 +89,6 @@ public class Fornecedores extends JDialog {
 		});
 	}
 
-	/**
-	 * Create the dialog.
-	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Fornecedores() {
 		setModal(true);
@@ -106,7 +97,6 @@ public class Fornecedores extends JDialog {
 		getContentPane().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// clicar no painel do JDialog
 				scrollPane_1.setVisible(false);
 			}
 		});
@@ -412,10 +402,10 @@ public class Fornecedores extends JDialog {
 		txtIE.setBounds(502, 228, 128, 20);
 		contentPanel.add(txtIE);
 		txtIE.setDocument(new Validador(20));
-		
+
 		setLocationRelativeTo(null);
 
-	}// FIM DO CONSTRUTOR
+	}
 
 	private void limpar() {
 		txtID.setText(null);
@@ -638,22 +628,13 @@ public class Fornecedores extends JDialog {
 			int confirma = JOptionPane.showConfirmDialog(null, "Confirma a exclusão deste fornecedor?", "Atenção!",
 					JOptionPane.YES_NO_OPTION);
 			if (confirma == JOptionPane.YES_OPTION) {
-				// CRUD - Delete
 				String delete = "delete from fornecedores where idfor=?";
-				// tratamento de exceções
 				try {
-					// abrir a conexão
 					con = dao.conectar();
-					// preparar a query (instrução sql)
 					pst = con.prepareStatement(delete);
-					// substituir a ? pelo id do contato
 					pst.setString(1, txtID.getText());
-					// executar a query
 					pst.executeUpdate();
-					// limpar campos
 					limpar();
-					// exibir uma mensagem ao usuário
-					// fechar a conexão
 					con.close();
 					JOptionPane.showMessageDialog(null, "fornecedor Excluído!");
 				} catch (java.sql.SQLIntegrityConstraintViolationException se) {
@@ -666,68 +647,40 @@ public class Fornecedores extends JDialog {
 
 	}
 
-	/**
-	 * Método usado para listar o nome dos usuários na lista
-	 */
 	@SuppressWarnings("unchecked")
 	private void listarFornecedores() {
-		// System.out.println("teste");
-		// a linha abaixo cria um objeto usando como referência um vetor dinâmico, este
-		// objeto irá temporariamente armazenar os nomes
 		DefaultListModel<String> modelo = new DefaultListModel<>();
-		// setar o modelo (vetor na lista)
 		listFornecedores.setModel(modelo);
-		// Query (instrução sql)
 		String readLista = "select * from fornecedores where razao like '" + txtRazaoSocial.getText() + "%'"
 				+ "order by razao";
 		try {
-			// abrir a conexão
 			con = dao.conectar();
-			// preparar a query (instrução sql)
 			pst = con.prepareStatement(readLista);
-			// executar a query e trazer o resultado para lista
 			rs = pst.executeQuery();
-			// uso do while para trazer os usuários enquanto existir
 			while (rs.next()) {
-				// mostrar a barra de rolagem (scrollpane)
 				scrollPane_1.setVisible(true);
-				// adicionar os usuarios no vetor -> lista
 				modelo.addElement(rs.getString(2));
-				// esconder o scrollpane se nenhuma letra for digitada
 				if (txtRazaoSocial.getText().isEmpty()) {
 					scrollPane_1.setVisible(false);
 				}
 			}
-			// fechar a conexão
 			con.close();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 
-	/**
-	 * Método que busca o usuário selecionado da lista
-	 */
 	private void buscarClienteLista() {
-		// System.out.println("teste");
-		// variável que captura o índice da linha da lista
 		int linha = listFornecedores.getSelectedIndex();
 		if (linha >= 0) {
-			// Query (instrução sql)
-			// limit (0,1) -> seleciona o índice 0 e 1 usuário da lista
 			String readListaCliente = "select * from fornecedores where razao like '" + txtRazaoSocial.getText() + "%'"
 					+ "order by razao limit " + (linha) + " , 1";
 			try {
-				// abrir a conexão
 				con = dao.conectar();
-				// preparar a query para execução
 				pst = con.prepareStatement(readListaCliente);
-				// executar e obter o resultado
 				rs = pst.executeQuery();
 				if (rs.next()) {
-					// esconder a lista
 					scrollPane_1.setVisible(false);
-					// setar os campos
 					txtID.setText(rs.getString(1));
 					txtRazaoSocial.setText(rs.getString(2));
 					txtNomeFantasia.setText(rs.getString(3));
@@ -751,20 +704,15 @@ public class Fornecedores extends JDialog {
 				} else {
 					JOptionPane.showMessageDialog(null, "Fornecedor inexistente");
 				}
-				// fechar a conexão
 				con.close();
 			} catch (Exception e) {
 				System.out.println(e);
 			}
 		} else {
-			// se não existir no banco um usuário da lista
 			scrollPane_1.setVisible(false);
 		}
 	}
 
-	/**
-	 * buscarCep
-	 */
 	private void buscarCep() {
 		if (txtCep.getText().equals("     -   ")) {
 			JOptionPane.showMessageDialog(null, "Preencha o CEP do Fornecedor!");
@@ -809,7 +757,7 @@ public class Fornecedores extends JDialog {
 
 		}
 	}
-	
+
 	public void OnlyNumber(KeyEvent e) {
 		char c = e.getKeyChar();
 		if (Character.isLetter(c)) {
@@ -818,5 +766,3 @@ public class Fornecedores extends JDialog {
 	}
 
 }
-
-// FIM DO CÓDIGO

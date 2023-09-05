@@ -63,7 +63,6 @@ public class Login extends JFrame {
 		setTitle("Login");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/img/tela de login.png")));
 		addWindowListener(new WindowAdapter() {
-			@Override
 			public void windowActivated(WindowEvent e) {
 				status();
 				Data();
@@ -145,14 +144,8 @@ public class Login extends JFrame {
 		setLocationRelativeTo(null);
 	}
 
-	/**
-	 * Método para autenticar um usuário
-	 */
 	private void logar() {
-		// Criar uma variável/objeto para capturar a senha
 		String capturaSenha = new String(txtSenha.getPassword());
-
-		// validação
 		if (txtLogin.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o Login do Usuário!");
 			txtLogin.requestFocus();
@@ -160,19 +153,16 @@ public class Login extends JFrame {
 			JOptionPane.showMessageDialog(null, "Preencha a Senha do Usuário!");
 			txtSenha.requestFocus();
 		} else {
-			// lógica principal
 			String read = "select * from usuarios where login = ? and senha = md5(?)";
 			try {
 				con = dao.conectar();
 				pst = con.prepareStatement(read);
-
 				pst.setString(1, txtLogin.getText());
 				pst.setString(2, capturaSenha);
 				rs = pst.executeQuery();
 				if (rs.next()) {
 					String perfil = rs.getString(5);
 					if (perfil.equals("admin")) {
-						// logar -> acessar a tela principal
 						principal.setVisible(true);
 						principal.lblCargo.setText(perfil);
 						principal.lblUsuario.setText(rs.getString(2).toUpperCase());
@@ -180,21 +170,18 @@ public class Login extends JFrame {
 						principal.btnRelatorio.setEnabled(true);
 						principal.btnUsers.setEnabled(true);
 						principal.panelRodape.setBackground(Color.RED);
-						
 					} else if (perfil.equals("user")) {
 						principal.setVisible(true);
 						principal.lblCargo.setText(perfil);
 						principal.lblUsuario.setText(rs.getString(2).toUpperCase());
 						JOptionPane.showMessageDialog(null, "Login Efetuado com Sucesso!");
 					}
-					// fechar tela de login
 					this.dispose();
 				} else {
 					JOptionPane.showMessageDialog(null, "Usuário Inexistente!");
 					txtLogin.setText(null);
 					txtSenha.setText(null);
 					txtLogin.requestFocus();
-
 				}
 				con.close();
 			} catch (Exception e) {

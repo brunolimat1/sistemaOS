@@ -50,13 +50,8 @@ public class Produtos extends JDialog {
 	private Connection con;
 	private PreparedStatement pst;
 	private ResultSet rs;
-
 	private FileInputStream fis;
 	private int tamanho;
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField txtbarcode;
 	private JTextField txtcodigo;
@@ -91,9 +86,6 @@ public class Produtos extends JDialog {
 	@SuppressWarnings("rawtypes")
 	private JList listProd;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		try {
 			Produtos dialog = new Produtos();
@@ -104,9 +96,6 @@ public class Produtos extends JDialog {
 		}
 	}
 
-	/**
-	 * Create the dialog.
-	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Produtos() {
 		getContentPane().addMouseListener(new MouseAdapter() {
@@ -466,9 +455,9 @@ public class Produtos extends JDialog {
 		});
 		checkalt.setBounds(538, 394, 134, 23);
 		getContentPane().add(checkalt);
-		
+
 		setLocationRelativeTo(null);
-	}// fim do código
+	}
 
 	private void limpar() {
 		txtbarcode.setText(null);
@@ -495,75 +484,48 @@ public class Produtos extends JDialog {
 
 	@SuppressWarnings("unchecked")
 	private void listarFornecedores() {
-		// System.out.println("teste");
-		// a linha abaixo cria um objeto usando como referência um vetor dinâmico, este
-		// objeto irá temporariamente armazenar os nomes
 		DefaultListModel<String> modelo = new DefaultListModel<>();
-		// setar o modelo (vetor na lista)
 		listID.setModel(modelo);
-		// Query (instrução sql)
 		String readLista = "select * from fornecedores where fantasia like '" + txtfornecedor.getText() + "%'"
 				+ "order by fantasia";
 		try {
-			// abrir a conexão
 			con = dao.conectar();
-			// preparar a query (instrução sql)
 			pst = con.prepareStatement(readLista);
-			// executar a query e trazer o resultado para lista
 			rs = pst.executeQuery();
-			// uso do while para trazer os usuários enquanto existir
 			while (rs.next()) {
-				// mostrar a barra de rolagem (scrollpane)
 				scrollPaneFor.setVisible(true);
-				// adicionar os usuarios no vetor -> lista
 				modelo.addElement(rs.getString(3));
-				// esconder o scrollpane se nenhuma letra for digitada
 				if (txtfornecedor.getText().isEmpty()) {
 					scrollPaneFor.setVisible(false);
 				}
 			}
-			// fechar a conexão
 			con.close();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 
-	/**
-	 * Método que busca o usuário selecionado da lista
-	 */
 	private void buscarFornecedorLista() {
-		// System.out.println("teste");
-		// variável que captura o índice da linha da lista
 		int linha = listID.getSelectedIndex();
 		if (linha >= 0) {
-			// Query (instrução sql)
-			// limit (0,1) -> seleciona o índice 0 e 1 usuário da lista
 			String readListaFornecedor = "select * from fornecedores where fantasia like '" + txtfornecedor.getText()
 					+ "%'" + "order by fantasia limit " + (linha) + " , 1";
 			try {
-				// abrir a conexão
 				con = dao.conectar();
-				// preparar a query para execução
 				pst = con.prepareStatement(readListaFornecedor);
-				// executar e obter o resultado
 				rs = pst.executeQuery();
 				if (rs.next()) {
-					// esconder a lista
 					scrollPaneFor.setVisible(false);
-					// setar os campos
 					txtfornecedor.setText(rs.getString(3));
 					txtidfor.setText(rs.getString(1));
 				} else {
 					JOptionPane.showMessageDialog(null, "Fornecedor inexistente");
 				}
-				// fechar a conexão
 				con.close();
 			} catch (Exception e) {
 				System.out.println(e);
 			}
 		} else {
-			// se não existir no banco um usuário da lista
 			scrollPaneFor.setVisible(false);
 		}
 	}
@@ -915,23 +877,14 @@ public class Produtos extends JDialog {
 			int confirma = JOptionPane.showConfirmDialog(null, "Confirma a exclusão deste produto?", "Atenção!",
 					JOptionPane.YES_NO_OPTION);
 			if (confirma == JOptionPane.YES_OPTION) {
-				// CRUD - Delete
 				String delete = "delete from produtos where codigo=?";
-				// tratamento de exceções
 				try {
-					// abrir a conexão
 					con = dao.conectar();
-					// preparar a query (instrução sql)
 					pst = con.prepareStatement(delete);
-					// substituir a ? pelo id do contato
 					pst.setString(1, txtcodigo.getText());
-					// executar a query
 					pst.executeUpdate();
-					// limpar campos
 					limpar();
-					// exibir uma mensagem ao usuário
 					JOptionPane.showMessageDialog(null, "Produto excluído!");
-					// fechar a conexão
 					con.close();
 				} catch (Exception e) {
 					System.out.println(e);
@@ -963,64 +916,38 @@ public class Produtos extends JDialog {
 
 	@SuppressWarnings("unchecked")
 	private void listarProdutos() {
-		// System.out.println("teste");
-		// a linha abaixo cria um objeto usando como referência um vetor dinâmico, este
-		// objeto irá temporariamente armazenar os nomes
 		DefaultListModel<String> modelo = new DefaultListModel<>();
-		// setar o modelo (vetor na lista)
 		listProd.setModel(modelo);
-		// Query (instrução sql)
 		String readLista = "select * from produtos where produto like '" + txtproduto.getText() + "%'"
 				+ "order by produto";
 		try {
-			// abrir a conexão
 			con = dao.conectar();
-			// preparar a query (instrução sql)
 			pst = con.prepareStatement(readLista);
-			// executar a query e trazer o resultado para lista
 			rs = pst.executeQuery();
-			// uso do while para trazer os usuários enquanto existir
 			while (rs.next()) {
-				// mostrar a barra de rolagem (scrollpane)
 				scrollPaneProd.setVisible(true);
-				// adicionar os usuarios no vetor -> lista
 				modelo.addElement(rs.getString(3));
-				// esconder o scrollpane se nenhuma letra for digitada
 				if (txtproduto.getText().isEmpty()) {
 					scrollPaneProd.setVisible(false);
 				}
 			}
-			// fechar a conexão
 			con.close();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 
-	/**
-	 * Método que busca o usuário selecionado da lista
-	 */
 	private void buscarProdutosLista() {
-		// System.out.println("teste");
-		// variável que captura o índice da linha da lista
 		int linha = listProd.getSelectedIndex();
 		if (linha >= 0) {
-			// Query (instrução sql)
-			// limit (0,1) -> seleciona o índice 0 e 1 usuário da lista
 			String readListaProdutos = "select * from produtos inner join fornecedores on produtos.idfor = fornecedores.idfor where produto like '"
 					+ txtproduto.getText() + "%'" + "order by produto limit " + (linha) + " , 1";
 			try {
-				// abrir a conexão
 				con = dao.conectar();
-				// preparar a query para execução
 				pst = con.prepareStatement(readListaProdutos);
-				// executar e obter o resultado
 				rs = pst.executeQuery();
 				if (rs.next()) {
-					// esconder a lista
 					scrollPaneProd.setVisible(false);
-					// setar os campos
-
 					txtcodigo.setText(rs.getString(1));
 					txtbarcode.setText(rs.getString(2));
 					txtproduto.setText(rs.getString(3));
@@ -1052,7 +979,6 @@ public class Produtos extends JDialog {
 				} else {
 					JOptionPane.showMessageDialog(null, "Produto inexistente");
 				}
-				// fechar a conexão
 				con.close();
 			} catch (java.sql.SQLIntegrityConstraintViolationException se) {
 				JOptionPane.showInternalMessageDialog(null, "Já existe um produto com o código de barras cadastrado!");
@@ -1064,7 +990,6 @@ public class Produtos extends JDialog {
 				System.out.println(e);
 			}
 		} else {
-			// se não existir no banco um usuário da lista
 			scrollPaneProd.setVisible(false);
 		}
 	}

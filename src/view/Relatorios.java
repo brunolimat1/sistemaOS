@@ -32,7 +32,6 @@ import model.DAO;
 @SuppressWarnings("unused")
 public class Relatorios extends JDialog {
 
-	// objetos JDBC
 	DAO dao = new DAO();
 	private Connection con;
 	private PreparedStatement pst;
@@ -40,9 +39,6 @@ public class Relatorios extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -57,9 +53,6 @@ public class Relatorios extends JDialog {
 		});
 	}
 
-	/**
-	 * Create the dialog.
-	 */
 	public Relatorios() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Relatorios.class.getResource("/img/clipboard.png")));
 		setTitle("Relatórios");
@@ -67,7 +60,7 @@ public class Relatorios extends JDialog {
 		setModal(true);
 		setBounds(100, 100, 644, 277);
 		getContentPane().setLayout(null);
-		
+
 		JButton btnClientes = new JButton("Clientes");
 		btnClientes.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		btnClientes.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -118,41 +111,24 @@ public class Relatorios extends JDialog {
 		getContentPane().add(btnEstoque);
 		setLocationRelativeTo(null);
 
-
-	}// fim do construtor
+	}
 
 	private void relatorioClientes() {
-		// instanciar um objeto para construir a página pdf
 		Document document = new Document();
-		// configurar como A4 e modo paisagem
-		// document.setPageSize(PageSize.A4.rotate());
-		// gerar o documento pdf
 		try {
-			// criar um documento em branco (pdf) de nome clientes.pdf
 			PdfWriter.getInstance(document, new FileOutputStream("clientes.pdf"));
-			// abrir o documento (formatar e inserir o conteúdo)
 			document.open();
-			// adicionar a data atual
 			Date dataRelatorio = new Date();
 			DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
 			document.add(new Paragraph(formatador.format(dataRelatorio)));
-			// adicionar um páragrafo
 			document.add(new Paragraph("Clientes:"));
-			document.add(new Paragraph(" ")); // pular uma linha
-			// ----------------------------------------------------------
-			// query (instrução sql para gerar o relatório de clientes)
+			document.add(new Paragraph(" "));
 			String readClientes = "select nome,telefone,cpf from clientes order by idcli";
 			try {
-				// abrir a conexão com o banco
 				con = dao.conectar();
-				// preparar a query (executar a instrução sql)
 				pst = con.prepareStatement(readClientes);
-				// obter o resultado (trazer do banco de dados)
 				rs = pst.executeQuery();
-				// atenção uso do while para trazer todos os clientes
-				// Criar uma tabela de duas colunas usando o framework(itextPDF)
-				PdfPTable tabela = new PdfPTable(3); // (2) número de colunas
-				// Criar o cabeçalho da tabela
+				PdfPTable tabela = new PdfPTable(3);
 				PdfPCell col1 = new PdfPCell(new Paragraph("Cliente"));
 				PdfPCell col2 = new PdfPCell(new Paragraph("Telefone"));
 				PdfPCell col3 = new PdfPCell(new Paragraph("CPF"));
@@ -160,14 +136,11 @@ public class Relatorios extends JDialog {
 				tabela.addCell(col2);
 				tabela.addCell(col3);
 				while (rs.next()) {
-					// popular a tabela
 					tabela.addCell(rs.getString(1));
 					tabela.addCell(rs.getString(2));
 					tabela.addCell(rs.getString(3));
 				}
-				// adicionar a tabela ao documento pdf
 				document.add(tabela);
-				// fechar a conexão com o banco
 				con.close();
 			} catch (Exception e) {
 				System.out.println(e);
@@ -175,10 +148,7 @@ public class Relatorios extends JDialog {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		// fechar o documento (pronto para "impressão" (exibir o pdf))
 		document.close();
-		// Abrir o desktop do sistema operacional e usar o leitor padrão
-		// de pdf para exibir o documento
 		try {
 			Desktop.getDesktop().open(new File("clientes.pdf"));
 		} catch (Exception e) {
@@ -187,37 +157,21 @@ public class Relatorios extends JDialog {
 	}
 
 	private void relatorioServicos() {
-		// instanciar um objeto para construir a página pdf
 		Document document = new Document();
-		// configurar como A4 e modo paisagem
-		// document.setPageSize(PageSize.A4.rotate());
-		// gerar o documento pdf
 		try {
-			// criar um documento em branco (pdf) de nome clientes.pdf
 			PdfWriter.getInstance(document, new FileOutputStream("servicos.pdf"));
-			// abrir o documento (formatar e inserir o conteúdo)
 			document.open();
-			// adicionar a data atual
 			Date dataRelatorio = new Date();
 			DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
 			document.add(new Paragraph(formatador.format(dataRelatorio)));
-			// adicionar um páragrafo
 			document.add(new Paragraph("Serviços:"));
-			document.add(new Paragraph(" ")); // pular uma linha
-			// ----------------------------------------------------------
-			// query (instrução sql para gerar o relatório de clientes)
+			document.add(new Paragraph(" "));
 			String readServicos = "select os,nome,data_os,equipamentos,defeito,valor from servicos order by idcli";
 			try {
-				// abrir a conexão com o banco
 				con = dao.conectar();
-				// preparar a query (executar a instrução sql)
 				pst = con.prepareStatement(readServicos);
-				// obter o resultado (trazer do banco de dados)
 				rs = pst.executeQuery();
-				// atenção uso do while para trazer todos os clientes
-				// Criar uma tabela de duas colunas usando o framework(itextPDF)
-				PdfPTable tabela = new PdfPTable(6); // (2) número de colunas
-				// Criar o cabeçalho da tabela
+				PdfPTable tabela = new PdfPTable(6);
 				PdfPCell col1 = new PdfPCell(new Paragraph("OS"));
 				PdfPCell col2 = new PdfPCell(new Paragraph("Clientes"));
 				PdfPCell col3 = new PdfPCell(new Paragraph("Data da OS"));
@@ -231,7 +185,6 @@ public class Relatorios extends JDialog {
 				tabela.addCell(col5);
 				tabela.addCell(col6);
 				while (rs.next()) {
-					// popular a tabela
 					tabela.addCell(rs.getString(1));
 					tabela.addCell(rs.getString(2));
 					tabela.addCell(rs.getString(3));
@@ -239,9 +192,7 @@ public class Relatorios extends JDialog {
 					tabela.addCell(rs.getString(5));
 					tabela.addCell(rs.getString(6));
 				}
-				// adicionar a tabela ao documento pdf
 				document.add(tabela);
-				// fechar a conexão com o banco
 				con.close();
 			} catch (Exception e) {
 				System.out.println(e);
@@ -249,10 +200,7 @@ public class Relatorios extends JDialog {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		// fechar o documento (pronto para "impressão" (exibir o pdf))
 		document.close();
-		// Abrir o desktop do sistema operacional e usar o leitor padrão
-		// de pdf para exibir o documento
 		try {
 			Desktop.getDesktop().open(new File("servicos.pdf"));
 		} catch (Exception e) {
@@ -295,58 +243,58 @@ public class Relatorios extends JDialog {
 					tabela.addCell(rs.getString(5));
 				}
 				document.add(tabela);
-					document.add(new Paragraph(" "));
-					document.add(new Paragraph("Validade já expirada:"));
-					document.add(new Paragraph(" "));
-					String readValidade = "select codigo as código,produto,date_format(dataval, '%d/%m/%Y') as validade, date_format(dataent, '%d/%m/%Y') as entrada from produtos where dataval < dataent";
-						con = dao.conectar();
-						pst = con.prepareStatement(readValidade);
-						rs = pst.executeQuery();
-						PdfPTable tabela2 = new PdfPTable(4);
-						PdfPCell col6 = new PdfPCell(new Paragraph("Código"));
-						PdfPCell col7 = new PdfPCell(new Paragraph("Produto"));
-						PdfPCell col8 = new PdfPCell(new Paragraph("Data de Validade"));
-						PdfPCell col9 = new PdfPCell(new Paragraph("Data de Entrada"));
-						tabela2.addCell(col6);
-						tabela2.addCell(col7);
-						tabela2.addCell(col8);
-						tabela2.addCell(col9);
-						while (rs.next()) {
-							tabela2.addCell(rs.getString(1));
-							tabela2.addCell(rs.getString(2));
-							tabela2.addCell(rs.getString(3));
-							tabela2.addCell(rs.getString(4));
-						}
-						document.add(tabela2);
-							document.add(new Paragraph(" "));
-							document.add(new Paragraph("Patrimônio (Custo):"));
-							document.add(new Paragraph(" "));
-							String readCusto = "select sum(custo * estoque)as Total from produtos";
-								con = dao.conectar();
-								pst = con.prepareStatement(readCusto);
-								rs = pst.executeQuery();
-								PdfPTable tabela3 = new PdfPTable(1);
-								PdfPCell col10 = new PdfPCell(new Paragraph("Custo"));
-								tabela3.addCell(col10);
-								while (rs.next()) {
-									tabela3.addCell(rs.getString(1));
-								}
-								document.add(tabela3);
-									document.add(new Paragraph(" "));
-									document.add(new Paragraph("Patrimônio (Venda):"));
-									document.add(new Paragraph(" "));
-									String readVenda = "select sum((custo + (custo * lucro)/100) * estoque) as total from produtos";
-										con = dao.conectar();
-										pst = con.prepareStatement(readVenda);
-										rs = pst.executeQuery();
-										PdfPTable tabela4 = new PdfPTable(1);
-										PdfPCell col11 = new PdfPCell(new Paragraph("Venda"));
-										tabela4.addCell(col11);
-										while (rs.next()) {
-											tabela4.addCell(rs.getString(1));
-										}
-										document.add(tabela4);
-										con.close();
+				document.add(new Paragraph(" "));
+				document.add(new Paragraph("Validade já expirada:"));
+				document.add(new Paragraph(" "));
+				String readValidade = "select codigo as código,produto,date_format(dataval, '%d/%m/%Y') as validade, date_format(dataent, '%d/%m/%Y') as entrada from produtos where dataval < dataent";
+				con = dao.conectar();
+				pst = con.prepareStatement(readValidade);
+				rs = pst.executeQuery();
+				PdfPTable tabela2 = new PdfPTable(4);
+				PdfPCell col6 = new PdfPCell(new Paragraph("Código"));
+				PdfPCell col7 = new PdfPCell(new Paragraph("Produto"));
+				PdfPCell col8 = new PdfPCell(new Paragraph("Data de Validade"));
+				PdfPCell col9 = new PdfPCell(new Paragraph("Data de Entrada"));
+				tabela2.addCell(col6);
+				tabela2.addCell(col7);
+				tabela2.addCell(col8);
+				tabela2.addCell(col9);
+				while (rs.next()) {
+					tabela2.addCell(rs.getString(1));
+					tabela2.addCell(rs.getString(2));
+					tabela2.addCell(rs.getString(3));
+					tabela2.addCell(rs.getString(4));
+				}
+				document.add(tabela2);
+				document.add(new Paragraph(" "));
+				document.add(new Paragraph("Patrimônio (Custo):"));
+				document.add(new Paragraph(" "));
+				String readCusto = "select sum(custo * estoque)as Total from produtos";
+				con = dao.conectar();
+				pst = con.prepareStatement(readCusto);
+				rs = pst.executeQuery();
+				PdfPTable tabela3 = new PdfPTable(1);
+				PdfPCell col10 = new PdfPCell(new Paragraph("Custo"));
+				tabela3.addCell(col10);
+				while (rs.next()) {
+					tabela3.addCell(rs.getString(1));
+				}
+				document.add(tabela3);
+				document.add(new Paragraph(" "));
+				document.add(new Paragraph("Patrimônio (Venda):"));
+				document.add(new Paragraph(" "));
+				String readVenda = "select sum((custo + (custo * lucro)/100) * estoque) as total from produtos";
+				con = dao.conectar();
+				pst = con.prepareStatement(readVenda);
+				rs = pst.executeQuery();
+				PdfPTable tabela4 = new PdfPTable(1);
+				PdfPCell col11 = new PdfPCell(new Paragraph("Venda"));
+				tabela4.addCell(col11);
+				while (rs.next()) {
+					tabela4.addCell(rs.getString(1));
+				}
+				document.add(tabela4);
+				con.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -360,10 +308,11 @@ public class Relatorios extends JDialog {
 			System.out.println(e);
 		}
 	}
-	private void Resolucao() {
-        Toolkit t = Toolkit.getDefaultToolkit();
-        Dimension dimensao = t.getScreenSize();
-        this.setSize((dimensao.width + 5), (dimensao.height - 38));
 
- }
+	private void Resolucao() {
+		Toolkit t = Toolkit.getDefaultToolkit();
+		Dimension dimensao = t.getScreenSize();
+		this.setSize((dimensao.width + 5), (dimensao.height - 38));
+
+	}
 }

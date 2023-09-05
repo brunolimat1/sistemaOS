@@ -42,10 +42,6 @@ public class Servicos extends JDialog {
 	private Connection con;
 	private PreparedStatement pst;
 	private ResultSet rs;
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtOS;
@@ -65,9 +61,6 @@ public class Servicos extends JDialog {
 	private JTextField txtID;
 	private JButton btnPrint;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		try {
 			Servicos dialog = new Servicos();
@@ -78,9 +71,6 @@ public class Servicos extends JDialog {
 		}
 	}
 
-	/**
-	 * Create the dialog.
-	 */
 	@SuppressWarnings("rawtypes")
 	public Servicos() {
 		setModal(true);
@@ -293,79 +283,49 @@ public class Servicos extends JDialog {
 		txtID.setText(null);
 	}
 
-	/**
-	 * Método usado para listar o nome dos usuários na lista
-	 */
 	@SuppressWarnings("unchecked")
 	private void listarClientes() {
-		// System.out.println("teste");
-		// a linha abaixo cria um objeto usando como referência um vetor dinâmico, este
-		// objeto irá temporariamente armazenar os nomes
 		DefaultListModel<String> modelo = new DefaultListModel<>();
-		// setar o modelo (vetor na lista)
 		listID.setModel(modelo);
-		// Query (instrução sql)
 		String readLista = "select * from clientes where nome like '" + txtNome.getText() + "%'" + "order by nome";
 		try {
-			// abrir a conexão
 			con = dao.conectar();
-			// preparar a query (instrução sql)
 			pst = con.prepareStatement(readLista);
-			// executar a query e trazer o resultado para lista
 			rs = pst.executeQuery();
-			// uso do while para trazer os usuários enquanto existir
 			while (rs.next()) {
-				// mostrar a barra de rolagem (scrollpane)
 				scrollPane.setVisible(true);
-				// adicionar os usuarios no vetor -> lista
 				modelo.addElement(rs.getString(2));
-				// esconder o scrollpane se nenhuma letra for digitada
 				if (txtNome.getText().isEmpty()) {
 					scrollPane.setVisible(false);
 				}
 			}
-			// fechar a conexão
 			con.close();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 
-	/**
-	 * Método que busca o usuário selecionado da lista
-	 */
 	private void buscarClienteLista() {
-		// System.out.println("teste");
-		// variável que captura o índice da linha da lista
 		int linha = listID.getSelectedIndex();
 		if (linha >= 0) {
-			// Query (instrução sql)
-			// limit (0,1) -> seleciona o índice 0 e 1 usuário da lista
 			String readListaCliente = "select * from clientes where nome like '" + txtNome.getText() + "%'"
 					+ "order by nome limit " + (linha) + " , 1";
 			try {
-				// abrir a conexão
 				con = dao.conectar();
-				// preparar a query para execução
 				pst = con.prepareStatement(readListaCliente);
-				// executar e obter o resultado
 				rs = pst.executeQuery();
 				if (rs.next()) {
-					// esconder a lista
 					scrollPane.setVisible(false);
-					// setar os campos
 					txtNome.setText(rs.getString(2));
 					txtID.setText(rs.getString(1));
 				} else {
 					JOptionPane.showMessageDialog(null, "ID inexistente");
 				}
-				// fechar a conexão
 				con.close();
 			} catch (Exception e) {
 				System.out.println(e);
 			}
 		} else {
-			// se não existir no banco um usuário da lista
 			scrollPane.setVisible(false);
 		}
 	}
@@ -402,7 +362,7 @@ public class Servicos extends JDialog {
 			}
 		}
 
-	}// fim do método adicionar
+	}
 
 	private void buscar() {
 		String OS = JOptionPane.showInputDialog(null, "Digite o OS para buscar!");
@@ -430,7 +390,7 @@ public class Servicos extends JDialog {
 			}
 		}
 
-	}// fim do método buscar
+	}
 
 	public void editar() {
 		String comando = "update servicos set data_os=?,equipamentos=?,defeito=?,valor=? where os=?";
@@ -493,23 +453,14 @@ public class Servicos extends JDialog {
 			int confirma = JOptionPane.showConfirmDialog(null, "Confirma a exclusão desta OS?", "Atenção!",
 					JOptionPane.YES_NO_OPTION);
 			if (confirma == JOptionPane.YES_OPTION) {
-				// CRUD - Delete
 				String delete = "delete from servicos where OS=?";
-				// tratamento de exceções
 				try {
-					// abrir a conexão
 					con = dao.conectar();
-					// preparar a query (instrução sql)
 					pst = con.prepareStatement(delete);
-					// substituir a ? pelo id do contato
 					pst.setString(1, txtOS.getText());
-					// executar a query
 					pst.executeUpdate();
-					// limpar campos
 					limparCampos();
-					// exibir uma mensagem ao usuário
 					JOptionPane.showMessageDialog(null, "OS Excluída!");
-					// fechar a conexão
 					con.close();
 				} catch (Exception e) {
 					System.out.println(e);
@@ -518,92 +469,71 @@ public class Servicos extends JDialog {
 		}
 	}
 
-	/**
-	 * Impressão da OS
-	 */
 	private void imprimirOS() {
-	    if (txtOS.getText().isEmpty()) {
-	        JOptionPane.showMessageDialog(null, "Selecione o número da OS antes de imprimir!");
-	        txtOS.requestFocus();
-	        return; // Saia da função se o campo estiver vazio
-	    }
-
-	    // Criar o documento PDF
-	    Document document = new Document();
-
-	    try {
-	        // Criar um arquivo PDF de saída com o nome "os.pdf"
-	        PdfWriter.getInstance(document, new FileOutputStream("os.pdf"));
-	        // Abrir o documento PDF para edição
-	        document.open();
-
-	        // Consultar o banco de dados para obter informações da OS
-	        String query = "SELECT * FROM servicos INNER JOIN clientes ON servicos.idcli = clientes.idcli WHERE OS=?";
-	        con = dao.conectar();
-	        pst = con.prepareStatement(query);
-	        pst.setString(1, txtOS.getText());
-	        rs = pst.executeQuery();
-
-	        // Verificar se a OS existe
-	        if (rs.next()) {
-	            // Adicionar informações da OS ao documento PDF
-	        	
+		if (txtOS.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Selecione o número da OS antes de imprimir!");
+			txtOS.requestFocus();
+			return;
+		}
+		Document document = new Document();
+		try {
+			PdfWriter.getInstance(document, new FileOutputStream("os.pdf"));
+			document.open();
+			String query = "SELECT * FROM servicos INNER JOIN clientes ON servicos.idcli = clientes.idcli WHERE OS=?";
+			con = dao.conectar();
+			pst = con.prepareStatement(query);
+			pst.setString(1, txtOS.getText());
+			rs = pst.executeQuery();
+			if (rs.next()) {
 				Paragraph osInfo = new Paragraph("3DPRINTECHGENIUS");
-		        osInfo.setAlignment(Element.ALIGN_CENTER);
-		        document.add(osInfo);
-		        
-		        Paragraph osInfo1 = new Paragraph("Assistência Técnica de Impressoras 3D");
-		        osInfo1.setAlignment(Element.ALIGN_CENTER);
-		        document.add(osInfo1);
-				
-	            Paragraph osInfo2 = new Paragraph("Ordem de Serviço N°: " + rs.getString(1));
-	            osInfo2.setAlignment(Element.ALIGN_LEFT);
-	            document.add(osInfo2);
-	            
-	            Paragraph osInfo3 = new Paragraph("Data da OS: " + rs.getString(2));
-		        osInfo3.setAlignment(Element.ALIGN_LEFT);
-		        document.add(osInfo3);
-	            
-	            Paragraph osInfo6 = new Paragraph("Equipamento Defeituoso: " + rs.getString(3));
-		        osInfo6.setAlignment(Element.ALIGN_LEFT);
-		        document.add(osInfo6);
+				osInfo.setAlignment(Element.ALIGN_CENTER);
+				document.add(osInfo);
 
-		        Paragraph osInfo4 = new Paragraph("Defeito Encontrado: " + rs.getString(4));
-		        osInfo4.setAlignment(Element.ALIGN_LEFT);
-		        document.add(osInfo4);
-		        
-		        Paragraph osInfo5 = new Paragraph("Valor: " + rs.getString(5));
-		        osInfo5.setAlignment(Element.ALIGN_LEFT);
-		        document.add(osInfo5);
-		        
-		        Paragraph osInfo7 = new Paragraph("Cliente: " + rs.getString(6));
-		        osInfo7.setAlignment(Element.ALIGN_LEFT);
-		        document.add(osInfo7);
-		        
-	            // Adicionar mais informações da OS, se necessário
+				Paragraph osInfo1 = new Paragraph("Assistência Técnica de Impressoras 3D");
+				osInfo1.setAlignment(Element.ALIGN_CENTER);
+				document.add(osInfo1);
 
-	            // Fechar a conexão com o banco de dados
-	            con.close();
-	        } else {
-	            // Se a OS não foi encontrada, exibir uma mensagem
-	            JOptionPane.showMessageDialog(null, "A Ordem de Serviço não foi encontrada.");
-	        }
+				Paragraph osInfo2 = new Paragraph("Ordem de Serviço N°: " + rs.getString(1));
+				osInfo2.setAlignment(Element.ALIGN_LEFT);
+				document.add(osInfo2);
 
-	    } catch (Exception e) {
-	        System.out.println(e);
-	    } finally {
-	        // Fechar o documento PDF
-	        document.close();
-	    }
+				Paragraph osInfo3 = new Paragraph("Data da OS: " + rs.getString(2));
+				osInfo3.setAlignment(Element.ALIGN_LEFT);
+				document.add(osInfo3);
 
-	    // Abrir o arquivo PDF com o leitor padrão do sistema operacional
-	    try {
-	        Desktop.getDesktop().open(new File("os.pdf"));
-	    } catch (Exception e) {
-	        System.out.println(e);
-	    }
+				Paragraph osInfo6 = new Paragraph("Equipamento Defeituoso: " + rs.getString(3));
+				osInfo6.setAlignment(Element.ALIGN_LEFT);
+				document.add(osInfo6);
+
+				Paragraph osInfo4 = new Paragraph("Defeito Encontrado: " + rs.getString(4));
+				osInfo4.setAlignment(Element.ALIGN_LEFT);
+				document.add(osInfo4);
+
+				Paragraph osInfo5 = new Paragraph("Valor: " + rs.getString(5));
+				osInfo5.setAlignment(Element.ALIGN_LEFT);
+				document.add(osInfo5);
+
+				Paragraph osInfo7 = new Paragraph("Cliente: " + rs.getString(6));
+				osInfo7.setAlignment(Element.ALIGN_LEFT);
+				document.add(osInfo7);
+
+				con.close();
+			} else {
+				JOptionPane.showMessageDialog(null, "A Ordem de Serviço não foi encontrada.");
+			}
+
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			document.close();
+		}
+
+		try {
+			Desktop.getDesktop().open(new File("os.pdf"));
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
-
 
 	public void OnlyNumber(KeyEvent e) {
 		char c = e.getKeyChar();
