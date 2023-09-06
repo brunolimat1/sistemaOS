@@ -7,6 +7,8 @@
  create database dbsistema;
  use dbsistema;
  
+ describe usuarios;
+ 
  create table usuarios (
 	id int primary key auto_increment,
     nome varchar(50) not null,
